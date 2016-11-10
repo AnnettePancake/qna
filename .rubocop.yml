@@ -1,0 +1,33 @@
+Documentation:
+  Enabled: false
+
+AbcSize:
+  Enabled: false
+
+LineLength:
+  Max: 100
+
+MethodLength:
+  Max: 12
+
+ClassLength:
+  Max: 500
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+
+AllCops:
+  Include:
+    - 'app/**/*.rb'
+    - 'config/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+  Exclude:
+    - 'db/**/*'
+    - 'spec/*'
+    - 'bin/**/*'
+    - 'doc/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+RSpec/ExampleLength:
+  Enabled: false
