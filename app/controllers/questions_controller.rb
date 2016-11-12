@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :edit, :update, :destroy]
 
