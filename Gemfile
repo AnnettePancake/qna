@@ -62,3 +62,5 @@ gem 'rails-controller-testing'
 gem 'slim-rails'
 
 gem 'devise'
+
+gem 'ffaker'

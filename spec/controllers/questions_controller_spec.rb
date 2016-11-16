@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:question) { create(:question, title: 'MyString', body: 'MyText') }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -130,7 +130,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    
+
     before { question }
 
     it 'deletes question' do
