@@ -12,8 +12,8 @@ feature 'Create question', %q{
 
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text'
+    fill_in :question_title, with: 'Test question'
+    fill_in :question_body, with: 'text text'
     click_on 'Create'
 
     expect(page).to have_content 'Your question successfully created.'
@@ -44,5 +44,22 @@ feature 'Browse list of questions', %q{
       expect(page).to have_content(question.title)
       expect(page).to have_content(question.body)
     end
+  end
+end
+
+feature 'User creates answer on question page', %q{
+  As an aunthenticated user
+  I want to be able to create answer on question page
+} do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+
+  scenario 'Authenticated user can create answer on question page' do
+    sign_in(user)
+    visit question_path(id: question.id)
+
+    fill_in :answer_body, with: 'text text'
+    click_on 'Answer'
   end
 end

@@ -3,10 +3,6 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create, :update, :destroy]
   before_action :find_answer, only: [:edit, :update, :destroy]
 
-  def new
-    @answer = Answer.new
-  end
-
   def edit
   end
 
