@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_question, only: [:create, :update, :destroy]
   before_action :find_answer, only: [:edit, :update, :destroy]
 

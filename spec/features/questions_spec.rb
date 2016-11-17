@@ -53,7 +53,7 @@ feature 'User creates answer on question page', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given!(:question) { create(:question) }
 
   scenario 'Authenticated user can create answer on question page' do
     sign_in(user)
@@ -61,6 +61,13 @@ feature 'User creates answer on question page', %q{
 
     fill_in :answer_body, with: 'text text'
     click_on 'Answer'
+  end
+
+  scenario 'Non-authenticated user tries to add answer' do
+    visit root_path
+    click_on question.title
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
 

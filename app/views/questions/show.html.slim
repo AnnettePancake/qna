@@ -4,4 +4,8 @@ div= @question.body
 - @answers.each do |answer|
   div= answer.body
 
-div= render 'answers/form'
+div
+  - if current_user
+      = render 'answers/form'
+  - else
+      = 'You need to sign in or sign up before continuing.'
