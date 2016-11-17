@@ -63,3 +63,24 @@ feature 'User creates answer on question page', %q{
     click_on 'Answer'
   end
 end
+
+feature 'User browses question and answers', %q{
+  As an aunthenticated user
+  I want to be able to browse question and answers
+} do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+  given!(:answers_list) { create_list(:answer, 3, question: question) }
+
+  scenario 'Authenticated user can browse question and answers' do
+    sign_in(user)
+    visit question_path(id: question.id)
+
+    expect(page).to have_content(question.title)
+    expect(page).to have_content(question.body)
+    answers_list.each do |answer|
+      expect(page).to have_content(answer.body)
+    end
+  end
+end

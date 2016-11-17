@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:answer) { create(:answer, body: 'MyText', question: question) }
 
   describe 'GET #edit' do
     before { get :edit, params: { question_id: question.id, id: answer } }
