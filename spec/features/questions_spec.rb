@@ -42,7 +42,6 @@ feature 'Browse list of questions', %q{
 
     questions_list.each do |question|
       expect(page).to have_content(question.title)
-      expect(page).to have_content(question.body)
     end
   end
 end
@@ -89,5 +88,63 @@ feature 'User browses question and answers', %q{
     answers_list.each do |answer|
       expect(page).to have_content(answer.body)
     end
+  end
+end
+
+feature 'User deletes his question', %q{
+  As an aunthenticated user
+  I want to be able to delete my question
+} do
+
+  given(:user) { create(:user) }
+  given!(:user_question) { create(:question, user: user) }
+  given!(:another_question) { create(:question) }
+
+  scenario 'Authenticated user can delete his question' do
+    sign_in(user)
+    visit question_path(id: user_question.id)
+
+    click_on 'Delete question'
+    expect(current_path).to eq root_path
+    expect(page).not_to have_content(user_question.title)
+  end
+
+  scenario "Authenticated user can't delete someone else's question" do
+    sign_in(user)
+    visit question_path(id: another_question.id)
+
+    expect(page).not_to have_content('Delete answer')
+  end
+end
+
+feature 'User deletes his answer', %q{
+  As an aunthenticated user
+  I want to be able to delete my answer
+} do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+  given!(:user_answer) { create(:answer, question: question, user: user) }
+  given!(:another_answer) { create(:answer, question: question) }
+
+  before do
+    sign_in(user)
+    visit question_path(id: question.id)
+  end
+
+  scenario 'Authenticated user can delete his answer' do
+    within "#answer_#{user_answer.id}" do
+      click_on 'Delete answer'
+    end
+
+    expect(current_path).to eq question_path(question)
+    expect(page).not_to have_content(user_answer.body)
+  end
+
+  scenario "Authenticated user can't delete someone else's answer" do
+    within "#answer_#{another_answer.id}" do
+      expect(page).not_to have_content('Delete answer')
+    end
+    expect(page).to have_content(another_answer.body)
   end
 end

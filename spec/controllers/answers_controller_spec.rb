@@ -3,10 +3,13 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, body: 'MyText', question: question) }
+  let(:user) { create(:user) }
+  let(:answer) { create(:answer, body: 'MyText', question: question, user: user) }
+
+  sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { get :edit, params: { question_id: question.id, id: answer } }
+    before { get :edit, params: { question_id: question.id, id: answer.id } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -89,12 +92,12 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'deletes answer' do
       expect do
-        delete :destroy, params: { id: answer, question_id: question.id }
+        delete :destroy, params: { id: answer.id, question_id: question.id }
       end.to change(Answer, :count).by(-1)
     end
 
     it 'redirect to' do
-      delete :destroy, params: { id: answer, question_id: question.id }
+      delete :destroy, params: { id: answer.id, question_id: question.id }
       expect(response).to redirect_to question_path(id: question.id)
     end
   end

@@ -17,10 +17,11 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    redirect_to(root_path) and return unless can_manage_question?
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
       redirect_to @question, flash: { notice: 'Your question successfully created.' }
@@ -30,6 +31,8 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    redirect_to(root_path) and return unless can_manage_question?
+
     if @question.update(question_params)
       redirect_to @question
     else
@@ -38,8 +41,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    @question.destroy if can_manage_question?
+    redirect_to root_path
   end
 
   private
@@ -50,5 +53,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def can_manage_question?
+    @question.user_id == current_user.id
   end
 end
