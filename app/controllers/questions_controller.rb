@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-    @answers = Answer.where(question_id: @question.id)
+    @answers = @question.answers
   end
 
   def new
