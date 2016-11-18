@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-feature 'Sessions', %q{
+feature 'Sessions', '
   In order to be able to ask question
   As an user
   I want to be able to sign in or log out or sign up
-} do
+' do
 
   given(:user) { create(:user) }
 

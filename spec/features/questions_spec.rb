@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require 'rails_helper'
-feature 'Create question', %q{
+feature 'Create question', '
   In order to get answer from community
   As an authenticated user
   I want to be able to ask question
-} do
+' do
 
   given(:user) { create(:user) }
 
@@ -25,13 +26,12 @@ feature 'Create question', %q{
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
-
 end
 
-feature 'Browse list of questions', %q{
+feature 'Browse list of questions', '
   As an aunthenticated user
   I want to be able to browse list of questions
-} do
+' do
 
   given(:user) { create(:user) }
   given!(:questions_list) { create_list(:question, 3) }
@@ -46,10 +46,10 @@ feature 'Browse list of questions', %q{
   end
 end
 
-feature 'User creates answer on question page', %q{
+feature 'User creates answer on question page', '
   As an aunthenticated user
   I want to be able to create answer on question page
-} do
+' do
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
@@ -70,10 +70,10 @@ feature 'User creates answer on question page', %q{
   end
 end
 
-feature 'User browses question and answers', %q{
+feature 'User browses question and answers', '
   As an aunthenticated user
   I want to be able to browse question and answers
-} do
+' do
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
@@ -91,10 +91,10 @@ feature 'User browses question and answers', %q{
   end
 end
 
-feature 'User deletes his question', %q{
+feature 'User deletes his question', '
   As an aunthenticated user
   I want to be able to delete my question
-} do
+' do
 
   given(:user) { create(:user) }
   given!(:user_question) { create(:question, user: user) }
@@ -117,10 +117,10 @@ feature 'User deletes his question', %q{
   end
 end
 
-feature 'User deletes his answer', %q{
+feature 'User deletes his answer', '
   As an aunthenticated user
   I want to be able to delete my answer
-} do
+' do
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }

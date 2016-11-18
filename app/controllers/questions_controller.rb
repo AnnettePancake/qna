@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    redirect_to(root_path) and return unless can_manage_question?
+    redirect_to(root_path) && return unless can_manage_question?
   end
 
   def create
@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    redirect_to(root_path) and return unless can_manage_question?
+    redirect_to(root_path) && return unless can_manage_question?
 
     if @question.update(question_params)
       redirect_to @question
