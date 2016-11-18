@@ -26,6 +26,14 @@ feature 'User creates answer on question page', '
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
+
+  scenario 'Authenticated user tries to create answer with invalid content' do
+    sign_in(user)
+    visit question_path(id: question.id)
+    click_on 'Answer'
+
+    expect(page).to have_content "Body can't be blank"
+  end
 end
 
 feature 'User browses answers', '

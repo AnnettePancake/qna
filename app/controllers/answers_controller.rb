@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
       redirect_to question_path(id: @question.id),
                   flash: { notice: 'Your answer successfully created.' }
     else
-      render :new
+      render 'questions/show'
     end
   end
 

@@ -42,9 +42,9 @@ RSpec.describe AnswersController, type: :controller do
       end.not_to change(Answer, :count)
     end
 
-    it 're-renders new view' do
+    it 're-renders questions/show' do
       post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-      expect(response).to render_template :new
+      expect(response).to render_template 'questions/show'
     end
   end
 

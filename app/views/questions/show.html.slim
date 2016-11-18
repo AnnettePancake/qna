@@ -4,7 +4,7 @@ div= @question.body
 - if @question.user_id == current_user.try(:id)
   div= link_to 'Delete question', question_path(@question), method: :delete
 
-- @answers.each do |answer|
+- @question.answers.order(created_at: :asc).each do |answer|
   div id="answer_#{answer.id}"
     = answer.body
     - if answer.user_id == current_user.try(:id)

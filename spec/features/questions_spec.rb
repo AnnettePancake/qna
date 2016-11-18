@@ -12,8 +12,7 @@ feature 'Create question', '
   scenario 'Authenticated user creates question' do
     sign_in(user)
 
-    visit questions_path
-    click_on 'Ask question'
+    ask_question
     fill_in :question_title, with: 'Test question'
     fill_in :question_body, with: 'text text'
     click_on 'Create'
@@ -24,10 +23,19 @@ feature 'Create question', '
   end
 
   scenario 'Non-authenticated user tries to create question' do
-    visit questions_path
-    click_on 'Ask question'
+    ask_question
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
+
+  scenario 'Authenticated user tries to create question with invalid content' do
+    sign_in(user)
+
+    ask_question
+    click_on 'Create'
+
+    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content "Body can't be blank"
   end
 end
 
@@ -90,4 +98,9 @@ feature 'User deletes his question', '
 
     expect(page).not_to have_content('Delete question')
   end
+end
+
+def ask_question
+  visit questions_path
+  click_on 'Ask question'
 end
