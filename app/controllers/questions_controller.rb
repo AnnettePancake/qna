@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -7,6 +8,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = Answer.new
   end
 
   def new
@@ -14,19 +16,22 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    redirect_to(root_path) && return unless can_manage_question?
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to @question
+      redirect_to @question, flash: { notice: 'Your question successfully created.' }
     else
       render :new
     end
   end
 
   def update
+    redirect_to(root_path) && return unless can_manage_question?
+
     if @question.update(question_params)
       redirect_to @question
     else
@@ -35,8 +40,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    @question.destroy if can_manage_question?
+    redirect_to root_path
   end
 
   private
@@ -47,5 +52,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def can_manage_question?
+    @question.user_id == current_user.id
   end
 end

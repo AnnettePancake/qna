@@ -3,22 +3,13 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:user) { create(:user) }
+  let(:answer) { create(:answer, body: 'MyText', question: question, user: user) }
 
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
-
-    it 'assigns to a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
+  sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { get :edit, params: { question_id: question.id, id: answer } }
+    before { get :edit, params: { question_id: question.id, id: answer.id } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -51,9 +42,9 @@ RSpec.describe AnswersController, type: :controller do
       end.not_to change(Answer, :count)
     end
 
-    it 're-renders new view' do
+    it 're-renders questions/show' do
       post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-      expect(response).to render_template :new
+      expect(response).to render_template 'questions/show'
     end
   end
 
@@ -101,12 +92,12 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'deletes answer' do
       expect do
-        delete :destroy, params: { id: answer, question_id: question.id }
+        delete :destroy, params: { id: answer.id, question_id: question.id }
       end.to change(Answer, :count).by(-1)
     end
 
     it 'redirect to' do
-      delete :destroy, params: { id: answer, question_id: question.id }
+      delete :destroy, params: { id: answer.id, question_id: question.id }
       expect(response).to redirect_to question_path(id: question.id)
     end
   end

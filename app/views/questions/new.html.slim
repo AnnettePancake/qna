@@ -1,0 +1,10 @@
+= form_for [@question] do |f|
+  - if @question.errors.any?
+    ul
+      - @question.errors.full_messages.each do |msg|
+        li= msg
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Create'

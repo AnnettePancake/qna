@@ -39,6 +39,8 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do
@@ -58,3 +60,7 @@ gem 'rubocop', require: false
 gem 'rails-controller-testing'
 
 gem 'slim-rails'
+
+gem 'devise'
+
+gem 'ffaker'

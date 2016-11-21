@@ -2,10 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, title: 'MyString', body: 'MyText', user: user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
+    let(:questions) { create_pair(:question) }
 
     before { get :index }
 
@@ -32,6 +33,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user(:user)
+
     before { get :new }
 
     it 'assigns a new question to @question' do
@@ -44,6 +47,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user(:user)
+
     before { get :edit, params: { id: question } }
 
     it 'assigns the requested question to @question' do
@@ -56,6 +61,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user(:user)
+
     context 'with calid attributes' do
       it 'saves the new question in the database' do
         expect do
@@ -84,6 +91,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    sign_in_user(:user)
+
     context 'valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
@@ -121,6 +130,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    sign_in_user(:user)
+
     before { question }
 
     it 'deletes question' do
@@ -129,7 +140,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'redirect to' do
       delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+      expect(response).to redirect_to root_path
     end
   end
 end

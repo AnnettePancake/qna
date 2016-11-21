@@ -1,0 +1,17 @@
+div= @question.title
+div= @question.body
+
+- if @question.user_id == current_user.try(:id)
+  div= link_to 'Delete question', question_path(@question), method: :delete
+
+- @question.answers.order(created_at: :asc).each do |answer|
+  div id="answer_#{answer.id}"
+    = answer.body
+    - if answer.user_id == current_user.try(:id)
+      div= link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), method: :delete
+
+div
+  - if current_user
+    = render 'answers/form'
+  - else
+    = 'You need to sign in or sign up before continuing.'
