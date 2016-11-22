@@ -1,8 +1,10 @@
-= form_for [@question, @answer] do |f|
+= form_for [@question, @answer], remote: true do |f|
+  = f.label :body, 'Your answer'
+
   - if @answer.errors.any?
-    ul
+    #answer-errors
       - @answer.errors.full_messages.each do |msg|
-        li= msg
-  = f.label :body
+        = msg
+
   = f.text_area :body
   = f.submit 'Answer'

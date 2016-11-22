@@ -9,15 +9,18 @@ feature 'User creates answer on question page', '
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'Authenticated user can create answer on question page' do
+  scenario 'Authenticated user can create answer on question page', js: true do
     sign_in(user)
+    expect(page).to have_current_path(root_path)
     visit question_path(id: question.id)
 
     fill_in :answer_body, with: 'text text'
     click_on 'Answer'
 
-    expect(page).to have_content 'text text'
-    expect(page).to have_content 'Your answer successfully created.'
+    expect(current_path).to eq question_path(id: question.id)
+    within '.answers' do
+      expect(page).to have_content 'text text'
+    end
   end
 
   scenario 'Non-authenticated user tries to add answer' do
@@ -27,11 +30,13 @@ feature 'User creates answer on question page', '
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
-  scenario 'Authenticated user tries to create answer with invalid content' do
+  scenario 'Authenticated user tries to create answer with invalid content', js: true do
     sign_in(user)
+    expect(page).to have_current_path(root_path)
     visit question_path(id: question.id)
     click_on 'Answer'
 
+    expect(current_path).to eq question_path(id: question.id)
     expect(page).to have_content "Body can't be blank"
   end
 end

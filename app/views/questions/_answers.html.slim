@@ -1,0 +1,5 @@
+- @question.answers.order(created_at: :asc).each do |answer|
+  div id="answer_#{answer.id}"
+    = answer.body
+    - if answer.user_id == current_user.try(:id)
+      div= link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), method: :delete
