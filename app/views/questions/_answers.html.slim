@@ -1,0 +1,2 @@
+- @question.answers.order(created_at: :asc).each do |answer|
+  = render 'answers/answer', answer: answer
