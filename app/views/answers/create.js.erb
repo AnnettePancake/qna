@@ -1,5 +1,5 @@
 <% if @answer.valid? %>
-  $('.answers').html("<%= j render 'questions/answers' %>");
+  $('.answers').append("<%= j render 'answers/answer', answer: @answer %>");
   $('#answer_body').val('');
   $('#answer-errors').html('');
 <% else %>
