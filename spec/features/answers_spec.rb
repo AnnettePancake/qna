@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'User creates answer on question page', '
   As an aunthenticated user
