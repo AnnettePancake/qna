@@ -1,8 +1,8 @@
-div= @question.title
-div= @question.body
+h1= @question.title
+.lead= @question.body
 
 - if @question.user_id == current_user.try(:id)
-  div= link_to 'Delete question', question_path(@question), method: :delete
+  div= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
 
 .answers
   = render 'answers'
@@ -12,3 +12,5 @@ div= @question.body
     = render 'answers/form'
   - else
     = 'You need to sign in or sign up before continuing.'
+
+p= link_to 'Back', root_path, class: 'btn btn-default'

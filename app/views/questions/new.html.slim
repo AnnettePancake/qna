@@ -1,10 +1,13 @@
-= form_for [@question] do |f|
+.form-horizontal= form_for [@question] do |f|
   - if @question.errors.any?
-    ul
       - @question.errors.full_messages.each do |msg|
-        li= msg
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create'
+        .alert.alert-danger= msg
+  .form-group
+    .col-sm-5
+      = f.text_field :title, placeholder: 'Title', class: 'form-control'
+  .form-group
+    .col-sm-5
+      = f.text_area :body, placeholder: 'Your text', rows: 3, class: 'form-control'
+  .form-group
+    .col-sm-10
+        = f.submit 'Create', class: 'btn btn-success'
