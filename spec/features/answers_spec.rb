@@ -119,7 +119,7 @@ feature 'User deletes his answer', '
 
   scenario 'Authenticated user can delete his answer', js: true do
     within "#answer_#{user_answer.id}" do
-      click_on 'Delete answer'
+      click_on 'Delete'
     end
 
     expect(current_path).to eq question_path(question)
@@ -128,7 +128,7 @@ feature 'User deletes his answer', '
 
   scenario "Authenticated user can't delete someone else's answer" do
     within "#answer_#{another_answer.id}" do
-      expect(page).not_to have_content('Delete answer')
+      expect(page).not_to have_content('Delete')
     end
     expect(page).to have_content(another_answer.body)
   end

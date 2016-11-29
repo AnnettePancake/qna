@@ -2,5 +2,5 @@
   $('#answer_<%= @answer.id %>').html("<%= j render 'answers/answer', answer: @answer %>");
   $('#answer-errors').html('');
 <% else %>
-  $('#answer_<%= @answer.id %>').html("<%= j render 'answers/form' %>")
+  $('#answer_<%= @answer.id %>').html("<%= j render 'answers/form' %>");
 <% end %>

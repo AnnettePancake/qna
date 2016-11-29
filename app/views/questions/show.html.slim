@@ -1,8 +1,10 @@
-h1= @question.title
-.lead= @question.body
+div id="question_#{@question.id}"
+  = render 'content', question: @question
 
-- if @question.user_id == current_user.try(:id)
-  div= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
+  - if @question.user_id == current_user.try(:id)
+    div
+      = link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
+      = link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
 
 .answers
   = render 'answers'

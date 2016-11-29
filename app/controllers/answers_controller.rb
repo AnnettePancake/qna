@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: [:create, :edit, :update, :destroy]
-  before_action :find_answer, only: [:edit, :update, :destroy]
+  before_action :find_question
+  before_action :find_answer, except: [:create]
 
   def edit
   end
@@ -14,9 +14,10 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @question = @answer.question
-    @answer.user = current_user
-    @answer.update(answer_params)
+    if can_manage_answer?
+      @question = @answer.question
+      @answer.update(answer_params)
+    end
   end
 
   def destroy

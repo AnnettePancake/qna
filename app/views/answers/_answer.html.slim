@@ -4,7 +4,6 @@ ul.media-list
     li
       = link_to 'Edit', edit_question_answer_path(question_id: @question.id, id: answer.id), 
                         remote: true, class: 'btn btn-xs btn-primary'
-    li
-      = link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), 
+      = link_to 'Delete', question_answer_path(question_id: @question.id, id: answer.id), 
                                  remote: true, method: :delete, class: 'btn btn-xs btn-danger'
   hr

@@ -1,0 +1,6 @@
+<% if @question.valid? %>
+  $('#question_<%= @question.id %>').html("<%= j render 'questions/content', question: @question %>");
+  $('#question-errors').html('');
+<% else %>
+  $('#question_<%= @question.id %>').html("<%= j render 'questions/form' %>");
+<% end %>
