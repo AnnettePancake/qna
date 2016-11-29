@@ -1,8 +1,10 @@
-div id="answer_#{answer.id}"
-  ul.media-list
-    li.media-body= answer.body
-    - if answer.user_id == current_user.try(:id)
-      li
-        = link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), method: :delete,
-                                   class: 'btn btn-xs btn-danger'
-    hr
+ul.media-list
+  li.media-body= answer.body
+  - if answer.user_id == current_user.try(:id)
+    li
+      = link_to 'Edit', edit_question_answer_path(question_id: @question.id, id: answer.id), 
+                        remote: true, class: 'btn btn-xs btn-primary'
+    li
+      = link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), 
+                                 remote: true, method: :delete, class: 'btn btn-xs btn-danger'
+  hr

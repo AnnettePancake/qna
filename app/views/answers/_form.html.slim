@@ -2,11 +2,11 @@
   - if @answer.errors.any?
     #answer-errors
       - @answer.errors.full_messages.each do |msg|
-        = msg
+        .alert.alert-danger= msg
 
   .form-group
     .col-sm-5
       = f.text_area :body, placeholder: 'Your answer', rows: 3, class: 'form-control'
   .form-group
     .col-sm-10
-      = f.submit 'Answer', class: 'btn btn-success'
+      = f.submit 'Save', class: 'btn btn-success'

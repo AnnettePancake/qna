@@ -56,29 +56,30 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
         patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer) }
+                                 answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
         patch :update, params: { question_id: question.id, id: answer,
-                                 answer: { body: 'new body' } }
+                                 answer: { body: 'new body' }, format: :js }
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
-      it 'redirects to the updated answer' do
+      it 'renders update template' do
         patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer) }
+                                 answer: attributes_for(:answer), format: :js }
 
-        expect(response).to redirect_to question_path(id: question.id)
+        expect(response).to render_template :update
       end
     end
   end
 
   context 'with invalid attributes' do
     before do
-      patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
+      patch :update, params: { question_id: question.id, id: answer,
+        answer: attributes_for(:invalid_answer), format: :js }
     end
 
     it 'does not change answer attributes' do
@@ -86,8 +87,8 @@ RSpec.describe AnswersController, type: :controller do
       expect(answer.body).to eq 'MyText'
     end
 
-    it 're-renders edit view' do
-      expect(response).to render_template :edit
+    it 'renders update template' do
+      expect(response).to render_template :update
     end
   end
 
@@ -101,7 +102,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'redirect to' do
-      delete :destroy, params: { id: answer.id, question_id: question.id }
+      delete :destroy, params: { id: answer.id, question_id: question.id, format: :js }
       expect(response).to redirect_to question_path(id: question.id)
     end
   end

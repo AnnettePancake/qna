@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: [:create, :update, :destroy]
+  before_action :find_question, only: [:create, :edit, :update, :destroy]
   before_action :find_answer, only: [:edit, :update, :destroy]
 
   def edit
-    redirect_to root_path unless can_manage_answer?
   end
 
   def create
@@ -15,13 +14,9 @@ class AnswersController < ApplicationController
   end
 
   def update
-    redirect_to root_path unless can_manage_answer?
-
-    if @answer.update(answer_params)
-      redirect_to question_path(id: @question.id)
-    else
-      render :edit
-    end
+    @question = @answer.question
+    @answer.user = current_user
+    @answer.update(answer_params)
   end
 
   def destroy

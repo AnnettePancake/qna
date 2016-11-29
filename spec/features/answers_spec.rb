@@ -15,7 +15,7 @@ feature 'User creates answer on question page', '
     visit question_path(id: question.id)
 
     fill_in :answer_body, with: 'text text'
-    click_on 'Answer'
+    click_on 'Save'
 
     expect(current_path).to eq question_path(id: question.id)
     within '.answers' do
@@ -34,7 +34,7 @@ feature 'User creates answer on question page', '
     sign_in(user)
     expect(page).to have_current_path(root_path)
     visit question_path(id: question.id)
-    click_on 'Answer'
+    click_on 'Save'
 
     expect(current_path).to eq question_path(id: question.id)
     expect(page).to have_content "Body can't be blank"
@@ -60,6 +60,48 @@ feature 'User browses answers', '
   end
 end
 
+feature 'User edits his answer', '
+  As an aunthenticated user
+  I want to be able to edit my answer
+' do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+  given!(:user_answer) { create(:answer, question: question, body: 'lalala', user: user) }
+  given!(:another_answer) { create(:answer, question: question) }
+
+  scenario 'Non-authenticated user tries to edit answer' do
+    visit question_path(question)
+
+    expect(page).not_to have_content 'Edit'
+  end
+
+  scenario 'Authenticated user tries to edit his answer', js: true do
+    sign_in(user)
+    visit question_path(id: question.id)
+
+    within "#answer_#{user_answer.id}" do
+      click_on 'Edit'
+      fill_in :answer_body, with: 'text-text-text'
+      click_on 'Save'
+
+      expect(page).not_to have_content 'lalala'
+      expect(page).to have_content 'text-text-text'
+    end
+  end
+
+  scenario "Authenticated user tries to edit someone else's answer" do
+    sign_in(user)
+    visit question_path(id: question.id)
+
+    within "#answer_#{another_answer.id}" do
+      expect(page).not_to have_content('Edit')
+    end
+
+    expect(page).to have_content(another_answer.body)
+  end
+end
+
 feature 'User deletes his answer', '
   As an aunthenticated user
   I want to be able to delete my answer
@@ -75,7 +117,7 @@ feature 'User deletes his answer', '
     visit question_path(id: question.id)
   end
 
-  scenario 'Authenticated user can delete his answer' do
+  scenario 'Authenticated user can delete his answer', js: true do
     within "#answer_#{user_answer.id}" do
       click_on 'Delete answer'
     end
