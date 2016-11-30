@@ -133,3 +133,39 @@ feature 'User deletes his answer', '
     expect(page).to have_content(another_answer.body)
   end
 end
+
+feature 'User chooses best answer', '
+  As an aunthenticated user and author of question
+  I want to be able to choose best answer
+' do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question) }
+  given!(:another_answer) { create(:answer, question: question) }
+
+  scenario 'Non-author of question tries to choose best answer' do
+    visit question_path(question)
+
+    expect(page).not_to have_css 'input#toggle-best'
+  end
+
+  scenario 'Author of question tries to choose best answer for his question', js: true do
+    sign_in(user)
+    visit question_path(id: question.id)
+
+    within '.answers' do
+      find(:css, "#toggle_best_#{answer.id}").click
+      wait_for_ajax
+
+      expect(page).to have_css("input#toggle_best_#{answer.id}:checked")
+      expect(page).to have_css("input#toggle_best_#{another_answer.id}:not(:checked)")
+
+      find(:css, "#toggle_best_#{another_answer.id}").click
+      wait_for_ajax
+
+      expect(page).to have_css("input#toggle_best_#{another_answer.id}:checked")
+      expect(page).to have_css("input#toggle_best_#{answer.id}:not(:checked)")
+    end
+  end
+end

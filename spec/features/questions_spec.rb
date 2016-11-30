@@ -45,7 +45,7 @@ feature 'User edits his question', '
 ' do
 
   given(:user) { create(:user) }
-  given!(:user_question) { create(:question, body: 'lalala', user: user) }
+  given!(:user_question) { create(:question, title: 'title', body: 'lalala', user: user) }
   given!(:another_question) { create(:question) }
 
   scenario 'Non-authenticated user tries to edit question' do
@@ -60,11 +60,14 @@ feature 'User edits his question', '
 
     within "#question_#{user_question.id}" do
       click_on 'Edit question'
+      fill_in :question_title, with: 'question'
       fill_in :question_body, with: 'text-text-text'
       click_on 'Save'
 
       expect(page).not_to have_content 'lalala'
+      expect(page).not_to have_content 'title'
       expect(page).to have_content 'text-text-text'
+      expect(page).to have_content 'question'
     end
   end
 

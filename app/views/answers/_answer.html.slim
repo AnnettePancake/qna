@@ -1,7 +1,9 @@
 ul.media-list
   li.media-body= answer.body
-  - if answer.user_id == current_user.try(:id)
-    li
+  li
+    - if @question.user_id == current_user.try(:id)
+      = check_box_tag 'best_answer', answer.id, answer.best, class: 'toggle-best', id: "toggle_best_#{answer.id}"
+    - if answer.user_id == current_user.try(:id)
       = link_to 'Edit', edit_question_answer_path(question_id: @question.id, id: answer.id), 
                         remote: true, class: 'btn btn-xs btn-primary'
       = link_to 'Delete', question_answer_path(question_id: @question.id, id: answer.id), 

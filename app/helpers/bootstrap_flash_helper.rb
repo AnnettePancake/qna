@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # https://github.com/seyhunak/twitter-bootstrap-rails/blob/master/app/helpers/bootstrap_flash_helper.rb
 
 # rubocop:disable all

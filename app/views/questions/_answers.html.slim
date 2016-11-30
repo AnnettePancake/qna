@@ -1,4 +1,4 @@
-- @question.answers.order(created_at: :asc).each do |answer|
+- @answers.each do |answer|
   div id="answer_#{answer.id}"
     = render 'answers/answer', answer: answer
     / = render answer

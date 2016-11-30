@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     resources :answers, except: [:index, :show]
   end
 
+  post '/answers/:id/toggle_best', to: 'answers#toggle_best'
+
   root to: 'questions#index'
 end

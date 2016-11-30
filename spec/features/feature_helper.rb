@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
-  
+
   config.include FeaturesHelper, type: :feature
 
   config.use_transactional_fixtures = false

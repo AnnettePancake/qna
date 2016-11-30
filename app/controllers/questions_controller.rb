@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answers = @question.answers.ordered
     @answer = Answer.new
   end
 
@@ -29,9 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if can_manage_question?
-      @question.update(question_params)
-    end
+    @question.update(question_params) if can_manage_question?
   end
 
   def destroy

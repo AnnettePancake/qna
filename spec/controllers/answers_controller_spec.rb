@@ -79,7 +79,7 @@ RSpec.describe AnswersController, type: :controller do
   context 'with invalid attributes' do
     before do
       patch :update, params: { question_id: question.id, id: answer,
-        answer: attributes_for(:invalid_answer), format: :js }
+                               answer: attributes_for(:invalid_answer), format: :js }
     end
 
     it 'does not change answer attributes' do
@@ -104,6 +104,21 @@ RSpec.describe AnswersController, type: :controller do
     it 'redirect to' do
       delete :destroy, params: { id: answer.id, question_id: question.id, format: :js }
       expect(response).to redirect_to question_path(id: question.id)
+    end
+  end
+
+  describe 'POST #toggle_best' do
+    let(:question) { create(:question, user: user) }
+    let(:another_answer) { create(:answer, body: 'MyText2', best: false) }
+
+    it 'toggles best answer if current user is author of question' do
+      post :toggle_best, params: { id: answer.id, format: :js }
+      expect(answer.reload.best).to be_truthy
+    end
+
+    it 'toggles best answer if current user is author of question' do
+      post :toggle_best, params: { id: another_answer.id, format: :js }
+      expect(another_answer.reload.best).to be_falsey
     end
   end
 end
