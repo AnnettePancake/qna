@@ -161,11 +161,17 @@ feature 'User chooses best answer', '
       expect(page).to have_css("input#toggle_best_#{answer.id}:checked")
       expect(page).to have_css("input#toggle_best_#{another_answer.id}:not(:checked)")
 
+      visit current_path
+      expect(page.first(:css, 'div')).to have_css("#toggle_best_#{answer.id}")
+
       find(:css, "#toggle_best_#{another_answer.id}").click
       wait_for_ajax
 
       expect(page).to have_css("input#toggle_best_#{another_answer.id}:checked")
       expect(page).to have_css("input#toggle_best_#{answer.id}:not(:checked)")
+
+      visit current_path
+      expect(page.first(:css, 'div')).to have_css("#toggle_best_#{another_answer.id}")
     end
   end
 end

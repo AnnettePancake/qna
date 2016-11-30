@@ -1,4 +1,4 @@
-= form_for [@question, @answer], remote: true, html: { class: 'form-horizontal' } do |f|
+= form_for shallow_args(@question, @answer), remote: true, html: { class: 'form-horizontal' } do |f|
   - if @answer.errors.any?
     #answer-errors
       - @answer.errors.full_messages.each do |msg|

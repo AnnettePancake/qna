@@ -9,7 +9,7 @@ RSpec.describe AnswersController, type: :controller do
   sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { get :edit, params: { question_id: question.id, id: answer.id } }
+    before { get :edit, params: { id: answer.id } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -55,21 +55,18 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer), format: :js }
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: { body: 'new body' }, format: :js }
+        patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'renders update template' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer), format: :js }
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
 
         expect(response).to render_template :update
       end
@@ -78,8 +75,7 @@ RSpec.describe AnswersController, type: :controller do
 
   context 'with invalid attributes' do
     before do
-      patch :update, params: { question_id: question.id, id: answer,
-                               answer: attributes_for(:invalid_answer), format: :js }
+      patch :update, params: { id: answer, answer: attributes_for(:invalid_answer), format: :js }
     end
 
     it 'does not change answer attributes' do
@@ -97,13 +93,8 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'deletes answer' do
       expect do
-        delete :destroy, params: { id: answer.id, question_id: question.id }
+        delete :destroy, params: { id: answer.id, format: :js }
       end.to change(Answer, :count).by(-1)
-    end
-
-    it 'redirect to' do
-      delete :destroy, params: { id: answer.id, question_id: question.id, format: :js }
-      expect(response).to redirect_to question_path(id: question.id)
     end
   end
 

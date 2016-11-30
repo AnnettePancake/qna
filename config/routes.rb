@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :questions do
-    resources :answers, except: [:index, :show]
+    resources :answers, except: [:index, :show], shallow: true do
+      post :toggle_best, on: :member
+    end
   end
-
-  post '/answers/:id/toggle_best', to: 'answers#toggle_best'
 
   root to: 'questions#index'
 end

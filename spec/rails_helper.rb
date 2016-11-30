@@ -30,7 +30,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
+    Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, js_errors: true)
   end
 
   config.include FactoryGirl::Syntax::Methods

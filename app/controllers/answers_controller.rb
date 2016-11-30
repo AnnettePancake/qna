@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, except: [:toggle_best]
+  before_action :find_question, only: [:create, :new]
   before_action :find_answer, except: [:create]
 
   def edit
@@ -21,18 +21,13 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy if can_manage_answer?
-    redirect_to question_path(id: @question.id)
   end
 
   def toggle_best
-    question = @answer.question # true
-    answers = question.answers
+    question = @answer.question
 
-    return unless question.user == current_user
-
-    answers.best_answers_except(@answer).update_all(best: false)
-    @answer.best = !@answer.best
-    @answer.save
+    return unless question.user.id == current_user.id
+    @answer.toggle_best
 
     render nothing: true
   end
