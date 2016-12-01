@@ -9,7 +9,7 @@ RSpec.describe AnswersController, type: :controller do
   sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { get :edit, params: { question_id: question.id, id: answer.id } }
+    before { get :edit, params: { id: answer.id } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -55,30 +55,27 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: { body: 'new body' } }
+        patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
-      it 'redirects to the updated answer' do
-        patch :update, params: { question_id: question.id, id: answer,
-                                 answer: attributes_for(:answer) }
+      it 'renders update template' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
 
-        expect(response).to redirect_to question_path(id: question.id)
+        expect(response).to render_template :update
       end
     end
   end
 
   context 'with invalid attributes' do
     before do
-      patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
+      patch :update, params: { id: answer, answer: attributes_for(:invalid_answer), format: :js }
     end
 
     it 'does not change answer attributes' do
@@ -86,8 +83,8 @@ RSpec.describe AnswersController, type: :controller do
       expect(answer.body).to eq 'MyText'
     end
 
-    it 're-renders edit view' do
-      expect(response).to render_template :edit
+    it 'renders update template' do
+      expect(response).to render_template :update
     end
   end
 
@@ -96,13 +93,23 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'deletes answer' do
       expect do
-        delete :destroy, params: { id: answer.id, question_id: question.id }
+        delete :destroy, params: { id: answer.id, format: :js }
       end.to change(Answer, :count).by(-1)
     end
+  end
 
-    it 'redirect to' do
-      delete :destroy, params: { id: answer.id, question_id: question.id }
-      expect(response).to redirect_to question_path(id: question.id)
+  describe 'POST #toggle_best' do
+    let(:question) { create(:question, user: user) }
+    let(:another_answer) { create(:answer, body: 'MyText2', best: false) }
+
+    it 'toggles best answer if current user is author of question' do
+      post :toggle_best, params: { id: answer.id, format: :js }
+      expect(answer.reload.best).to be_truthy
+    end
+
+    it 'toggles best answer if current user is author of question' do
+      post :toggle_best, params: { id: another_answer.id, format: :js }
+      expect(another_answer.reload.best).to be_falsey
     end
   end
 end

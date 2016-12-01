@@ -1,4 +1,10 @@
-div id="answer_#{answer.id}"
-  = answer.body
-  - if answer.user_id == current_user.try(:id)
-    div= link_to 'Delete answer', question_answer_path(question_id: @question.id, id: answer.id), method: :delete
+ul.media-list
+  li.media-body= answer.body
+  li
+    - if @question.user_id == current_user.try(:id)
+      = check_box_tag 'best_answer', answer.id, answer.best, class: 'toggle-best', id: "toggle_best_#{answer.id}"
+    - if answer.user_id == current_user.try(:id)
+      = link_to 'Edit', edit_answer_path(id: answer.id), 
+                        remote: true, class: 'btn btn-xs btn-primary'
+      = link_to 'Delete', answer_path(id: answer.id), remote: true, method: :delete, class: 'btn btn-xs btn-danger'
+  hr

@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answers = @question.answers.ordered
     @answer = Answer.new
   end
 
@@ -16,7 +17,6 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    redirect_to(root_path) && return unless can_manage_question?
   end
 
   def create
@@ -30,13 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    redirect_to(root_path) && return unless can_manage_question?
-
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
-    end
+    @question.update(question_params) if can_manage_question?
   end
 
   def destroy

@@ -7,16 +7,14 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    p.notice
-      = notice
-    p.alert
-      = alert
-    
-    p
-      - if current_user
-        = link_to 'Log out', destroy_user_session_path, method: :delete
-      - else
-        = link_to 'Sign in', new_user_session_path
-        = link_to 'Sign up', new_user_registration_path
-    
-    = yield
+    .container-fluid
+      = bootstrap_flash
+      
+      p
+        - if current_user
+          = link_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-warning'
+        - else
+          = link_to 'Sign in', new_user_session_path, class: 'btn btn-success'
+          = link_to 'Sign up', new_user_registration_path, class: 'btn btn-info'
+      
+      = yield

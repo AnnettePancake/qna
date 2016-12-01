@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: [:create, :update, :destroy]
-  before_action :find_answer, only: [:edit, :update, :destroy]
+  before_action :find_question, only: [:create, :new]
+  before_action :find_answer, except: [:create]
 
   def edit
-    redirect_to root_path unless can_manage_answer?
   end
 
   def create
@@ -15,18 +14,22 @@ class AnswersController < ApplicationController
   end
 
   def update
-    redirect_to root_path unless can_manage_answer?
-
-    if @answer.update(answer_params)
-      redirect_to question_path(id: @question.id)
-    else
-      render :edit
-    end
+    return unless can_manage_answer?
+    @question = @answer.question
+    @answer.update(answer_params)
   end
 
   def destroy
     @answer.destroy if can_manage_answer?
-    redirect_to question_path(id: @question.id)
+  end
+
+  def toggle_best
+    question = @answer.question
+
+    return unless question.user.id == current_user.id
+    @answer.toggle_best
+
+    render nothing: true
   end
 
   private

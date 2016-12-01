@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'Create question', '
   In order to get answer from community
@@ -15,7 +15,7 @@ feature 'Create question', '
     ask_question
     fill_in :question_title, with: 'Test question'
     fill_in :question_body, with: 'text text'
-    click_on 'Create'
+    click_on 'Save'
 
     expect(page).to have_content 'Test question'
     expect(page).to have_content 'text text'
@@ -32,10 +32,54 @@ feature 'Create question', '
     sign_in(user)
 
     ask_question
-    click_on 'Create'
+    click_on 'Save'
 
     expect(page).to have_content "Title can't be blank"
     expect(page).to have_content "Body can't be blank"
+  end
+end
+
+feature 'User edits his question', '
+  As an aunthenticated user
+  I want to be able to edit my question
+' do
+
+  given(:user) { create(:user) }
+  given!(:user_question) { create(:question, title: 'title', body: 'lalala', user: user) }
+  given!(:another_question) { create(:question) }
+
+  scenario 'Non-authenticated user tries to edit question' do
+    visit question_path(id: another_question.id)
+
+    expect(page).not_to have_content 'Edit question'
+  end
+
+  scenario 'Authenticated user tries to edit his question', js: true do
+    sign_in(user)
+    visit question_path(id: user_question.id)
+
+    within "#question_#{user_question.id}" do
+      click_on 'Edit question'
+      fill_in :question_title, with: 'question'
+      fill_in :question_body, with: 'text-text-text'
+      click_on 'Save'
+
+      expect(page).not_to have_content 'lalala'
+      expect(page).not_to have_content 'title'
+      expect(page).to have_content 'text-text-text'
+      expect(page).to have_content 'question'
+    end
+  end
+
+  scenario "Authenticated user tries to edit someone else's question" do
+    sign_in(user)
+    visit question_path(id: another_question.id)
+
+    within "#question_#{another_question.id}" do
+      expect(page).not_to have_content('Edit question')
+    end
+
+    expect(page).to have_content(another_question.body)
   end
 end
 
