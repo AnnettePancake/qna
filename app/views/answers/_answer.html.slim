@@ -1,5 +1,9 @@
 ul.media-list
   li.media-body= answer.body
+  p Attachments:
+  ul
+    - answer.attachments.each do |attachment|
+      li= link_to attachment.file.identifier, attachment.file.url
   li
     - if @question.user_id == current_user.try(:id)
       = check_box_tag 'best_answer', answer.id, answer.best, class: 'toggle-best', id: "toggle_best_#{answer.id}"

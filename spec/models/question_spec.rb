@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
-  it { should have_many(:attachments).dependent(:destroy).inverse_of(:question) }
+  it { should have_many(:attachments).dependent(:destroy) }
 
   it { should belong_to(:user) }
 

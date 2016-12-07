@@ -8,5 +8,9 @@
     .col-sm-5
       = f.text_area :body, placeholder: 'Your answer', rows: 3, class: 'form-control'
   .form-group
+    .col-sm-5   
+      = f.fields_for :attachments do |a|
+        = a.file_field :file
+  .form-group
     .col-sm-10
       = f.submit 'Save', class: 'btn btn-success'
