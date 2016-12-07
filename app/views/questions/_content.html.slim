@@ -1,2 +1,6 @@
 h1= @question.title
 .lead= @question.body
+p Attachments:
+ul
+  - @question.attachments.each do |attachment|
+    li= link_to attachment.file.identifier, attachment.file.url

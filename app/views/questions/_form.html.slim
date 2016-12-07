@@ -1,14 +1,19 @@
-.form-horizontal= form_for [@question], remote: true do |f|
-  - if @question.errors.any?
-    #question-errors
-      - @question.errors.full_messages.each do |msg|
-        .alert.alert-danger= msg
-  .form-group
-    .col-sm-5
-      = f.text_field :title, placeholder: 'Title', class: 'form-control'
-  .form-group
-    .col-sm-5
-      = f.text_area :body, placeholder: 'Your text', rows: 3, class: 'form-control'
-  .form-group
-    .col-sm-10
-        = f.submit 'Save', class: 'btn btn-success'
+.form-horizontal
+  = form_for @question, remote: @question.persisted? do |f|
+    - if @question.errors.any?
+      #question-errors
+        - @question.errors.full_messages.each do |msg|
+          .alert.alert-danger= msg
+    .form-group
+      .col-sm-5
+        = f.text_field :title, placeholder: 'Title', class: 'form-control'
+    .form-group
+      .col-sm-5
+        = f.text_area :body, placeholder: 'Your text', rows: 3, class: 'form-control'
+    .form-group
+      .col-sm-5   
+        = f.fields_for :attachments do |a|
+          = a.file_field :file
+    .form-group
+      .col-sm-10
+          = f.submit 'Save', class: 'btn btn-success'

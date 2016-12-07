@@ -69,3 +69,7 @@ gem 'devise'
 gem 'ffaker'
 
 gem 'bootstrap-sass'
+
+gem 'carrierwave'
+
+gem 'remotipart'

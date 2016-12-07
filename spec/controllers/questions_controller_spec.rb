@@ -45,6 +45,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
+    it 'builds new attachment to @question' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'renders new view' do
       expect(response).to render_template :new
     end
@@ -53,7 +57,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     sign_in_user(:user)
 
-    before { get :edit, params: { id: question } }
+    before { xhr :get, :edit, params: { id: question, format: :js } }
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question

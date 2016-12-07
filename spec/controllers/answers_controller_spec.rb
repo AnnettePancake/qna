@@ -9,13 +9,13 @@ RSpec.describe AnswersController, type: :controller do
   sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: answer.id } }
+    before { xhr :get, :edit, params: { id: answer.id, question_id: question.id, format: :js } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
     end
 
-    it 'renders edit view' do
+    it 'renders edit template' do
       expect(response).to render_template :edit
     end
   end

@@ -144,6 +144,29 @@ feature 'User deletes his question', '
   end
 end
 
+feature 'Add files to question', "
+  In order to illustrate my question
+  As an question's author
+  I'd like to be able to attach files
+" do
+
+  given(:user) { create(:user) }
+
+  background do
+    sign_in(user)
+    visit new_question_path
+  end
+
+  scenario 'User adds file when asks question' do
+    fill_in :question_title, with: 'Test question'
+    fill_in :question_body, with: 'text text'
+    attach_file :question_attachments_attributes_0_file, "#{Rails.root}/spec/spec_helper.rb"
+    click_on 'Save'
+
+    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+  end
+end
+
 def ask_question
   visit questions_path
   click_on 'Ask question'
