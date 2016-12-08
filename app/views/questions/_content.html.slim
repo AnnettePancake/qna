@@ -2,5 +2,9 @@ h1= @question.title
 .lead= @question.body
 p Attachments:
 ul
+  li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
   - @question.attachments.each do |attachment|
-    li= link_to attachment.file.identifier, attachment.file.url
+    div id="attachment_#{attachment.id}"
+      li= link_to attachment.file.identifier, attachment.file.url
+      - if @question.user_id == current_user.try(:id)
+        = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
