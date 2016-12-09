@@ -5,6 +5,8 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+# require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 
 Capybara.default_max_wait_time = 5
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -32,6 +34,8 @@ RSpec.configure do |config|
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, js_errors: true)
   end
+
+  Capybara::Screenshot.autosave_on_failure = false
 
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller

@@ -175,3 +175,68 @@ feature 'User chooses best answer', '
     end
   end
 end
+
+feature 'Add files to answer', "
+  In order to illustrate my answer
+  As an answer's author
+  I'd like to be able to attach files
+" do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+
+  background do
+    sign_in(user)
+    visit question_path(question)
+  end
+
+  scenario 'User adds files when gives an answer', js: true do
+    fill_in :answer_body, with: 'text text'
+
+    2.times do
+      click_on 'Add files'
+      input_id = all('.nested-fields input[type=file]').last[:id]
+      attach_file input_id, "#{Rails.root}/spec/spec_helper.rb"
+    end
+
+    click_on 'Save'
+
+    within '.answers' do
+      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+    end
+  end
+end
+
+feature 'User deletes his attachment', '
+  As an aunthenticated user
+  I want to be able to delete my attachment
+' do
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+  given(:user_answer) { create(:answer, question: question, user: user) }
+  given(:another_answer) { create(:answer, question: question) }
+  given!(:user_attachment) { create(:attachment, attachable: user_answer) }
+  given!(:another_attachment) { create(:attachment, attachable: another_answer) }
+
+  before do
+    sign_in(user)
+    visit question_path(id: question.id)
+  end
+
+  scenario 'Authenticated user can delete his attachment', js: true do
+    within "#attachment_#{user_attachment.id}" do
+      click_on 'Delete file'
+    end
+
+    expect(current_path).to eq question_path(question)
+    expect(page).not_to have_content(user_attachment.file)
+  end
+
+  scenario "Authenticated user can't delete someone else's attachment" do
+    within "#attachment_#{another_attachment.id}" do
+      expect(page).not_to have_content('Delete file')
+    end
+    expect(page).to have_content(another_attachment.file)
+  end
+end

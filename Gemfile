@@ -44,6 +44,7 @@ group :test do
   gem 'database_cleaner'
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'capybara-screenshot'
 end
 
 group :development do
@@ -69,3 +70,9 @@ gem 'devise'
 gem 'ffaker'
 
 gem 'bootstrap-sass'
+
+gem 'carrierwave'
+
+gem 'remotipart'
+
+gem 'cocoon'

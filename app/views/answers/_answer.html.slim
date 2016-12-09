@@ -1,5 +1,12 @@
 ul.media-list
   li.media-body= answer.body
+  p Attachments:
+  ul
+    - answer.attachments.each do |attachment|
+      div id="attachment_#{attachment.id}"
+        li= link_to attachment.file.identifier, attachment.file.url
+        - if answer.user_id == current_user.try(:id)
+          = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
   li
     - if @question.user_id == current_user.try(:id)
       = check_box_tag 'best_answer', answer.id, answer.best, class: 'toggle-best', id: "toggle_best_#{answer.id}"
