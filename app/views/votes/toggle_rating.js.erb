@@ -1,0 +1,1 @@
+$("#rating-<%= @voteable.class.name %>-<%= @voteable.id %>").replaceWith("<%= j render 'votes/rating', voteable: @voteable %>");
