@@ -2,6 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
+  it_behaves_like 'votes' do
+    let(:voteable) { create(:question) }
+  end
+
   let(:user) { create(:user) }
   let(:question) { create(:question, title: 'MyString', body: 'MyText', user: user) }
 
