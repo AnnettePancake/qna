@@ -1,7 +1,9 @@
+# frozen_string_literal: true
 module Votes
   extend ActiveSupport::Concern
 
   included do
+    before_action :authenticate_user!, only: [:like, :dislike]
     before_action :set_voteable, only: [:like, :dislike]
   end
 

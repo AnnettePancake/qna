@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-
   it_behaves_like 'votes' do
     let(:voteable) { create(:answer) }
   end

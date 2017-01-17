@@ -25,7 +25,6 @@ Capybara.default_max_wait_time = 5
 # require only the support files necessary.
 #
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join("spec/models/shared_examples/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join("spec/controllers/shared_examples/**/*.rb")].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
