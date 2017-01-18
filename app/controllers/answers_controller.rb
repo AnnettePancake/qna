@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
+  include Votes
+
   before_action :authenticate_user!
   before_action :find_question, only: [:create, :new]
-  before_action :find_answer, except: [:create]
+  before_action :find_answer, except: [:create, :like, :dislike]
 
   def edit
   end

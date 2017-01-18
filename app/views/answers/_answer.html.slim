@@ -14,4 +14,5 @@ ul.media-list
       = link_to 'Edit', edit_answer_path(id: answer.id), 
                         remote: true, class: 'btn btn-xs btn-primary'
       = link_to 'Delete', answer_path(id: answer.id), remote: true, method: :delete, class: 'btn btn-xs btn-danger'
+    = render 'votes/rating', voteable: answer
   hr
