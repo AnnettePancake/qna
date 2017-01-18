@@ -20,7 +20,7 @@ shared_examples 'votes' do
         post :dislike, params: { id: voteable.id }, format: :js
       end.to change(voteable.votes, :count).by(1)
 
-      expect(voteable.votes.last.value).to eq -1
+      expect(voteable.votes.last.value).to eq(-1)
     end
   end
 end
