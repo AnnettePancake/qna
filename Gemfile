@@ -76,3 +76,7 @@ gem 'carrierwave'
 gem 'remotipart'
 
 gem 'cocoon'
+
+gem 'skim'
+
+gem 'gon'
