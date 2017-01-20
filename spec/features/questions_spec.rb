@@ -37,7 +37,36 @@ feature 'Create question', '
     expect(page).to have_content "Title can't be blank"
     expect(page).to have_content "Body can't be blank"
   end
+
+  context 'Multiple sessions' do
+    scenario "Question appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        ask_question
+        fill_in :question_title, with: 'Test question'
+        fill_in :question_body, with: 'text text'
+        click_on 'Save'
+
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text'
+        expect(page).to have_content 'Your question successfully created.'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test question'
+      end
+    end
+  end
 end
+
 
 feature 'User edits his question', '
   As an aunthenticated user

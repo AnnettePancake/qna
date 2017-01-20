@@ -1,5 +1,5 @@
 .rating id="rating-#{voteable.class.name}-#{voteable.id}"
-  = voteable.rating
+  = "#{voteable.rating } Likes"
   - if current_user && current_user != voteable.user
     .btn-group
       = link_to polymorphic_path([:like, voteable]), method: :post, remote: true, class: 'btn' do
