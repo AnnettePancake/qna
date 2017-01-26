@@ -1,4 +1,4 @@
 - @answers.each do |answer|
   div id="answer_#{answer.id}"
-    = render 'answers/answer', answer: answer
+    = render 'answers/answer', answer: answer, question: @question
     / = render answer
