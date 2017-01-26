@@ -4,8 +4,7 @@
 
 App.cable.subscriptions.create('QuestionsChannel', {
   connected: ->
-    @perform 'follow'
-  ,
+    @perform 'follow_question'
 
   received: (data) ->
     $('.questions-list').append data

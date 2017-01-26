@@ -3,6 +3,15 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  $('.answers').on 'click', '.toggle-best', ->
-    $('.toggle-best').filter(':checked').not(this).removeAttr 'checked'
-    $.post "/answers/#{$(this).val()}/toggle_best"
+  App.cable.subscriptions.create({channel: 'AnswersChannel', question_id: gon.question_id}, {
+    connected: ->
+      @perform 'follow_answer'
+
+    received: (data) ->
+      console.log data
+      $('.answers').append(JST["skim/answer"]({
+        answer: data.answer,
+        question: data.question,
+        attachments: data.attachments
+      }));
+  })

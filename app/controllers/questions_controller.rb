@@ -15,6 +15,8 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.ordered
     @answer = Answer.new
     @answer.attachments.build
+
+    gon.question_id = @question.id
   end
 
   def new
