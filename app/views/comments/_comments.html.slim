@@ -1,0 +1,6 @@
+div id="comments-#{commentable.class.name}-#{commentable.id}"
+  - if current_user
+    = link_to 'Add a comment', new_polymorphic_path([commentable, Comment]), remote: true, class: 'btn btn-xs btn-primary'
+  - commentable.comments.each do |comment|
+    div id="comment-#{commentable.class.name}-#{comment.id}"
+      = render 'comments/comment', comment: comment, commentable: commentable

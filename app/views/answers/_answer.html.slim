@@ -15,4 +15,5 @@ ul.media-list
     - if question.user_id == current_user.try(:id)
       = toggle_best_link(answer)
     = render 'votes/rating', voteable: answer
+    = render 'comments/comments', commentable: answer
   hr

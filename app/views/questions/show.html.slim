@@ -5,7 +5,7 @@ div id="question_#{@question.id}"
     div
       = link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
       = link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
-
+  = render 'comments/comments', commentable: @question
 h4#answers_count= "#{@question.answers.size} Answers"
 hr
 
