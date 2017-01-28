@@ -97,7 +97,6 @@ feature 'User deletes his comment', '
   given(:question) { create(:question) }
   given(:answer) { create(:answer, question: question) }
 
-
   shared_examples 'comment' do |entity|
     before do
       @commentable = public_send(entity)
@@ -110,7 +109,7 @@ feature 'User deletes his comment', '
 
     scenario 'Authenticated user can delete his comment', js: true do
       within "#comment-#{@commentable.class.name}-#{@user_comment.id}" do
-        find(:css, ".btn.glyphicon.glyphicon-trash").click
+        find(:css, '.btn.glyphicon.glyphicon-trash').click
       end
 
       expect(current_path).to eq question_path(question)

@@ -67,7 +67,6 @@ feature 'Create question', '
   end
 end
 
-
 feature 'User edits his question', '
   As an aunthenticated user
   I want to be able to edit my question
@@ -189,8 +188,6 @@ feature 'Add files to question', "
   scenario 'User adds files when asks question', js: true do
     fill_in :question_title, with: 'Test question'
     fill_in :question_body, with: 'text text'
-
-    screenshot_and_save_page
 
     2.times do
       click_on 'Add files'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
@@ -16,8 +17,10 @@ RSpec.describe CommentsController, type: :controller do
     describe 'GET #new' do
       sign_in_user(:user)
 
-      before { get :new, xhr: true, params: { commentable_id => @commentable.id,
-                                       commentable: commentable_type, format: :js } }
+      before do
+        get :new, xhr: true, params: { commentable_id => @commentable.id,
+                                       commentable: commentable_type, format: :js }
+      end
 
       it 'assigns a new comment to @comment' do
         expect(assigns(:comment)).to be_a_new(Comment)

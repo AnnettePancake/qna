@@ -68,7 +68,6 @@ feature 'User creates answer on question page', '
   end
 end
 
-
 feature 'User browses answers', '
   As an aunthenticated user
   I want to be able to browse answers
@@ -187,11 +186,11 @@ feature 'User chooses best answer', '
       wait_for_ajax
 
       within "#toggle_best_#{answer.id}" do
-        expect(page).to have_css(".glyphicon.glyphicon-ok.selected")
+        expect(page).to have_css('.glyphicon.glyphicon-ok.selected')
       end
 
       within "#toggle_best_#{another_answer.id}" do
-        expect(page).not_to have_css(".glyphicon.glyphicon-ok.selected")
+        expect(page).not_to have_css('.glyphicon.glyphicon-ok.selected')
       end
 
       visit current_path
@@ -201,11 +200,11 @@ feature 'User chooses best answer', '
       wait_for_ajax
 
       within "#toggle_best_#{another_answer.id}" do
-        expect(page).to have_css(".glyphicon.glyphicon-ok.selected")
+        expect(page).to have_css('.glyphicon.glyphicon-ok.selected')
       end
 
       within "#toggle_best_#{answer.id}" do
-        expect(page).not_to have_css(".glyphicon.glyphicon-ok.selected")
+        expect(page).not_to have_css('.glyphicon.glyphicon-ok.selected')
       end
 
       visit current_path

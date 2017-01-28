@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable, except: :destroy
@@ -40,7 +41,7 @@ class CommentsController < ApplicationController
   end
 
   def commentable_id
-    params[(params[:commentable].singularize + "_id").to_sym]
+    params[(params[:commentable].singularize + '_id').to_sym]
   end
 
   def publish_comment
