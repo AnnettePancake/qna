@@ -5,14 +5,18 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: [:create, :new]
   before_action :find_answer, except: [:create, :like, :dislike]
+  after_action :publish_answer, only: [:create]
+
+  respond_to :js, :json
 
   def edit
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    @answer.save
+    @answer = current_user.answers.create(
+      answer_params.merge(question_id: @question.id)
+    )
+    respond_with(@answer)
   end
 
   def update
@@ -30,8 +34,6 @@ class AnswersController < ApplicationController
 
     return unless question.user.id == current_user.id
     @answer.toggle_best
-
-    render nothing: true
   end
 
   private
@@ -50,5 +52,16 @@ class AnswersController < ApplicationController
 
   def can_manage_answer?
     @answer.user_id == current_user.id
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "answer_question_#{@question.id}",
+      answer: @answer,
+      question: @question,
+      attachments: @answer.attachments
+    )
   end
 end

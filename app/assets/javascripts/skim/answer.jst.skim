@@ -1,0 +1,30 @@
+- unless @answer.user_id == gon.user_id
+  ul.media-list
+    li.media-body= @answer.body
+    p Attachments:
+    ul
+      - for attachment in @attachments
+        div id="attachment_#{attachment.id}"
+          li
+            a href="#{attachment.file.url}" #{attachment.file_name}
+          li= link_to attachment.file.identifier, attachment.file.url
+          - if @answer.user_id == gon.user_id
+            a.btn.btn-xs.btn-danger data-method="delete" data-remote="true" href="/attachments/#{attachment.id}" rel="nofollow"  Delete file
+    li
+      - if @question.user_id == gon.user_id
+        a#toggle_best_130.btn data-method="post" data-remote="true" href="/answers/#{@answer.id}/toggle_best" rel="nofollow" 
+          span.glyphicon.glyphicon-ok
+      - if @answer.user_id == gon.user_id
+        a.btn.btn-xs.btn-primary data-remote="true" href="/answers/#{@answer.id}/edit" Edit
+        a.btn.btn-xs.btn-danger data-method="delete" data-remote="true" href="/answers/#{@answer.id}" rel="nofollow"  Delete
+
+      .rating id="rating-Answer-#{@answer.id}"
+        - if gon.user_id && gon.user_id != @answer.user_id
+          .btn-group
+            a.btn data-method="post" data-remote="true" href="/answers/#{@answer.id}/like" rel="nofollow" 
+              span.glyphicon.glyphicon-thumbs-up
+            a.btn data-method="post" data-remote="true" href="/#{@answer.id}/122/dislike" rel="nofollow" 
+              span.glyphicon.glyphicon-thumbs-down
+        = "#{@answer.rating } Likes"
+
+    hr

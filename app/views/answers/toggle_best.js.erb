@@ -1,0 +1,2 @@
+$('.answers span').removeClass('selected');
+$("#toggle_best_<%= @answer.id %>").replaceWith("<%= j toggle_best_link(@answer) %>");

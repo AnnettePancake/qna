@@ -11,10 +11,16 @@ Rails.application.routes.draw do
     resources :answers, except: [:index, :show], shallow: true do
       concerns :voteable
       post :toggle_best, on: :member
+      resources :comments, only: [:new, :create, :destroy],
+                           defaults: { commentable: 'answer' }
     end
+    resources :comments, only: [:new, :create, :destroy], shallow: true,
+                         defaults: { commentable: 'question' }
   end
 
   resources :attachments, only: :destroy
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end

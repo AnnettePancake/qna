@@ -39,6 +39,33 @@ feature 'User creates answer on question page', '
     expect(current_path).to eq question_path(id: question.id)
     expect(page).to have_content "Body can't be blank"
   end
+
+  context 'Multiple sessions' do
+    scenario "Answer appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(id: question.id)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(id: question.id)
+      end
+
+      Capybara.using_session('user') do
+        fill_in :answer_body, with: 'text text'
+        click_on 'Save'
+
+        expect(current_path).to eq question_path(id: question.id)
+        within '.answers' do
+          expect(page).to have_content 'text text'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'text text'
+      end
+    end
+  end
 end
 
 feature 'User browses answers', '
@@ -158,8 +185,13 @@ feature 'User chooses best answer', '
       find(:css, "#toggle_best_#{answer.id}").click
       wait_for_ajax
 
-      expect(page).to have_css("input#toggle_best_#{answer.id}:checked")
-      expect(page).to have_css("input#toggle_best_#{another_answer.id}:not(:checked)")
+      within "#toggle_best_#{answer.id}" do
+        expect(page).to have_css('.glyphicon.glyphicon-ok.selected')
+      end
+
+      within "#toggle_best_#{another_answer.id}" do
+        expect(page).not_to have_css('.glyphicon.glyphicon-ok.selected')
+      end
 
       visit current_path
       expect(page.first(:css, 'div')).to have_css("#toggle_best_#{answer.id}")
@@ -167,8 +199,13 @@ feature 'User chooses best answer', '
       find(:css, "#toggle_best_#{another_answer.id}").click
       wait_for_ajax
 
-      expect(page).to have_css("input#toggle_best_#{another_answer.id}:checked")
-      expect(page).to have_css("input#toggle_best_#{answer.id}:not(:checked)")
+      within "#toggle_best_#{another_answer.id}" do
+        expect(page).to have_css('.glyphicon.glyphicon-ok.selected')
+      end
+
+      within "#toggle_best_#{answer.id}" do
+        expect(page).not_to have_css('.glyphicon.glyphicon-ok.selected')
+      end
 
       visit current_path
       expect(page.first(:css, 'div')).to have_css("#toggle_best_#{another_answer.id}")

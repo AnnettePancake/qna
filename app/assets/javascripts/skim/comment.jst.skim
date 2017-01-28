@@ -1,0 +1,6 @@
+- unless @comment.user_id == gon.user_id
+  hr
+  ul.media-list
+    - if @comment.user_id == gon.user_id
+      a.btn.glyphicon.glyphicon-trash data-method="delete" data-remote="true" href="/comments/#{@comment.id}" rel="nofollow"
+    li.media-body= @comment.body

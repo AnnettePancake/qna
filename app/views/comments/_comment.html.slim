@@ -1,0 +1,5 @@
+hr
+ul.media-list
+  - if comment.user_id == current_user.try(:id)
+    = link_to '', comment_path(comment), remote: true, method: :delete, class: 'btn glyphicon glyphicon-trash'
+  li.media-body= comment.body

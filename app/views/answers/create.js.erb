@@ -1,11 +1,12 @@
 <% if @answer.valid? %>
   $('.answers').append(
     "<div id='answer_<%= @answer.id %>'>" +
-      "<%= j render 'answers/answer', answer: @answer %>" +
+      "<%= j render 'answers/answer', answer: @answer, question: @question %>" +
     "</div>"
   );
   $('#answer_body').val('');
   $('#answer-errors').html('');
+  $("#answers_count").html("<%= @question.answers.size %> Answers");
 <% else %>
   $('.answer_form').html("<%= j render 'answers/form' %>")
 <% end %>

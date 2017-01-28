@@ -1,0 +1,3 @@
+$('#comments-<%= @commentable.class.name %>-<%= @commentable.id %>').append(
+  "<%= j render 'comments/form', commentable: @commentable, comment: @comment %>"
+);

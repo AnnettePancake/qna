@@ -4,6 +4,8 @@ require 'rails_helper'
 RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
+  Capybara.server = :puma
+
   config.include FeaturesHelper, type: :feature
 
   config.use_transactional_fixtures = false

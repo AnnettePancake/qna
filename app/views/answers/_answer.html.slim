@@ -8,11 +8,12 @@ ul.media-list
         - if answer.user_id == current_user.try(:id)
           = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
   li
-    - if @question.user_id == current_user.try(:id)
-      = check_box_tag 'best_answer', answer.id, answer.best, class: 'toggle-best', id: "toggle_best_#{answer.id}"
     - if answer.user_id == current_user.try(:id)
       = link_to 'Edit', edit_answer_path(id: answer.id), 
                         remote: true, class: 'btn btn-xs btn-primary'
       = link_to 'Delete', answer_path(id: answer.id), remote: true, method: :delete, class: 'btn btn-xs btn-danger'
+    - if question.user_id == current_user.try(:id)
+      = toggle_best_link(answer)
     = render 'votes/rating', voteable: answer
+    = render 'comments/comments', commentable: answer
   hr

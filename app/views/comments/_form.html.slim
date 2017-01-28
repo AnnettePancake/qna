@@ -1,0 +1,12 @@
+= form_for [@comment.commentable, @comment], remote: true, html: { class: 'form-horizontal' } do |f|
+  - if @comment.errors.any?
+    #comment-errors
+      - @comment.errors.full_messages.each do |msg|
+        .alert.alert-danger= msg
+
+  .form-group
+    .col-sm-5
+      = f.text_area :body, placeholder: 'Your comment', rows: 3, class: 'form-control'
+  .form-group
+    .col-sm-10
+      = f.submit 'Save', class: 'btn btn-success'

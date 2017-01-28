@@ -3,15 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  App.cable.subscriptions.create({channel: 'AnswersChannel', question_id: gon.question_id}, {
+  App.cable.subscriptions.create({channel: 'CommentsChannel', question_id: gon.question_id}, {
     connected: ->
-      @perform 'follow_answer'
+      @perform 'follow_comment'
 
     received: (data) ->
       console.log data
-      $('.answers').append(JST["skim/answer"]({
-        answer: data.answer,
-        question: data.question,
-        attachments: data.attachments
-      }));
+      $("#comments-#{data.commentable.class}-#{data.commentable.id}").append(JST["skim/comment"]({
+          comment: data.comment
+        }));
   })
