@@ -35,10 +35,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    it 'builds new attachment to @answer' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -51,10 +47,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
-    end
-
-    it 'builds new attachment to @question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
     it 'renders new view' do
@@ -79,7 +71,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     sign_in_user(:user)
 
-    context 'with calid attributes' do
+    context 'with valid attributes' do
       it 'saves the new question in the database' do
         expect do
           post :create, params: { question: attributes_for(:question) }
@@ -158,7 +150,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'redirect to' do
       delete :destroy, params: { id: question }
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to questions_path
     end
   end
 end
