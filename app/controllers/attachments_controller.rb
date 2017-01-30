@@ -3,8 +3,10 @@ class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_attachment
 
+  respond_to :js
+
   def destroy
-    @attachment.destroy if can_manage_attachment?
+    respond_with(@attachment.destroy) if can_manage_attachment?
   end
 
   private

@@ -160,7 +160,7 @@ feature 'User deletes his question', '
     visit question_path(id: user_question.id)
 
     click_on 'Delete question'
-    expect(current_path).to eq root_path
+    expect(current_path).to eq questions_path
     expect(page).not_to have_content(user_question.title)
   end
 

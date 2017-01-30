@@ -12,7 +12,7 @@
         = f.text_area :body, placeholder: 'Your text', rows: 3, class: 'form-control'
     .form-group
       .col-sm-5   
-        = f.fields_for :attachments do |a|
+        = f.fields_for :attachments, @question.attachments.build do |a|
           = link_to_add_association 'Add files', f, :attachments, class: 'btn btn-xs btn-primary', 
             partial: 'attachments/fields'
     .form-group

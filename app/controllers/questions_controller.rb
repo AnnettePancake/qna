@@ -4,46 +4,37 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :build_answer, only: :show
+  before_action :gon_question, only: :show
 
   after_action :publish_question, only: [:create]
 
+  respond_to :js
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
     @answers = @question.answers.ordered
-    @answer = Answer.new
-    @answer.attachments.build
-
-    gon.question_id = @question.id
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
-  end
-
-  def edit
+    respond_with(@question = Question.new)
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-
-    if @question.save
-      redirect_to @question, flash: { notice: 'Your question successfully created.' }
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    @question.update(question_params) if can_manage_question?
+    return unless can_manage_question?
+    respond_with @question.update(question_params)
   end
 
   def destroy
-    @question.destroy if can_manage_question?
-    redirect_to root_path
+    respond_with(@question.destroy) if can_manage_question?
   end
 
   private
@@ -58,6 +49,14 @@ class QuestionsController < ApplicationController
 
   def can_manage_question?
     @question.user_id == current_user.id
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def gon_question
+    gon.question_id = @question.id
   end
 
   def publish_question

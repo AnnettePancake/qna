@@ -3,14 +3,12 @@ class AnswersController < ApplicationController
   include Votes
 
   before_action :authenticate_user!
-  before_action :find_question, only: [:create, :new]
+  before_action :find_question, only: [:create]
   before_action :find_answer, except: [:create, :like, :dislike]
+
   after_action :publish_answer, only: [:create]
 
-  respond_to :js, :json
-
-  def edit
-  end
+  respond_to :js
 
   def create
     @answer = current_user.answers.create(
@@ -21,19 +19,16 @@ class AnswersController < ApplicationController
 
   def update
     return unless can_manage_answer?
-    @question = @answer.question
-    @answer.update(answer_params)
+    respond_with @answer.update(answer_params)
   end
 
   def destroy
-    @answer.destroy if can_manage_answer?
+    respond_with(@answer.destroy) if can_manage_answer?
   end
 
   def toggle_best
-    question = @answer.question
-
-    return unless question.user.id == current_user.id
-    @answer.toggle_best
+    return unless @answer.question.user_id == current_user.id
+    respond_with(@answer.toggle_best)
   end
 
   private

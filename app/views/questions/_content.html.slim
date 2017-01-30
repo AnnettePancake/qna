@@ -11,3 +11,9 @@ ul
         = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
 
 = render 'votes/rating', voteable: @question
+
+- if @question.user_id == current_user.try(:id)
+  div
+    p= link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
+    p= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
+= render 'comments/comments', commentable: @question

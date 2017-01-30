@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   respond_to :js
 
   def new
-    @comment = @commentable.comments.new
+    respond_with(@comment = @commentable.comments.new)
   end
 
   def create
@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment.destroy if can_manage_comment?
+    respond_with(@comment.destroy) if can_manage_comment?
   end
 
   private
