@@ -83,3 +83,5 @@ gem 'cocoon'
 gem 'skim'
 
 gem 'gon'
+
+gem 'responders'

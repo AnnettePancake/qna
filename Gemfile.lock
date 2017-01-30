@@ -304,6 +304,7 @@ DEPENDENCIES
   rails (~> 5.0.0)
   rails-controller-testing
   remotipart
+  responders
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
