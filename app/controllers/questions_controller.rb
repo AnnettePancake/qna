@@ -24,16 +24,13 @@ class QuestionsController < ApplicationController
     respond_with(@question = Question.new)
   end
 
-  def edit
-  end
-
   def create
     respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    @question.update(question_params) if can_manage_question?
-    respond_with @question
+    return unless can_manage_question?
+    respond_with @question.update(question_params)
   end
 
   def destroy
