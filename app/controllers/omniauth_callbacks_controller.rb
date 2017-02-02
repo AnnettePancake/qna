@@ -39,6 +39,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
 
     user = User.find_by(email: authorization.temporary_email)
+
     if user
       authorization.update_attributes(confirmed: true, user_id: user.id)
     else
