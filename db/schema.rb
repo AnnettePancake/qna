@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201125907) do
+ActiveRecord::Schema.define(version: 20170202191230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,8 +40,13 @@ ActiveRecord::Schema.define(version: 20170201125907) do
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "confirmed",          default: false
+    t.string   "confirmation_token"
+    t.string   "temporary_email"
+    t.index ["confirmation_token"], name: "index_authorizations_on_confirmation_token", using: :btree
+    t.index ["confirmed"], name: "index_authorizations_on_confirmed", using: :btree
     t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid", using: :btree
     t.index ["user_id"], name: "index_authorizations_on_user_id", using: :btree
   end

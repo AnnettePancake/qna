@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable,
-         omniauth_providers: [:facebook]
+         omniauth_providers: [:facebook, :twitter]
 
   has_many :questions
   has_many :answers
@@ -29,6 +29,6 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    self.authorizations.create(provider: auth.provider, uid: auth.uid, confirmed: true)
   end
 end
