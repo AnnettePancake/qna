@@ -20,14 +20,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def send_email_confirmation
-    Authorization.create!(
+    authorization = Authorization.create!(
       provider: params[:provider],
       uid: params[:uid],
       temporary_email: params[:email],
       confirmation_token: SecureRandom.hex(30),
       confirmed: false
     )
-    # UserMailer.send_twitter_confirmation ...
+
+    UserMailer.email_confirmation(authorization).deliver
     redirect_to root_path, flash: { notice: "Check your email" }
   end
 
