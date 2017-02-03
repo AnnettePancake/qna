@@ -29,7 +29,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     )
 
     UserMailer.email_confirmation(authorization).deliver
-    redirect_to root_path, flash: { notice: "Check your email" }
+    redirect_to root_path, flash: { notice: 'Check your email' }
   end
 
   def email_confirmation

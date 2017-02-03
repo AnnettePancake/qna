@@ -72,6 +72,17 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
+  #   provider: 'twitter',
+  #   uid: '123545'
+  # })
+
+  Capybara.server_port = 3001
+  Capybara.app_host = 'http://localhost:3001'
+
+  OmniAuth.config.add_mock(:twitter, { uid: '12345' })
+  OmniAuth.config.add_mock(:facebook, { uid: '23456', info: { email: 'test@test.com' } })
 end
 
 Shoulda::Matchers.configure do |config|

@@ -13,11 +13,11 @@ class User < ApplicationRecord
   has_many :authorizations
 
   def self.find_for_oauth(auth)
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
+    user = User.find_by(email: email)
     if user
       user.create_authorization(auth)
     else

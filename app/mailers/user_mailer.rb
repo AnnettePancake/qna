@@ -6,6 +6,5 @@ class UserMailer < ApplicationMailer
     @token = authorization.confirmation_token
 
     mail(to: @email, subject: 'Email confirmation for your qna account')
-    mail(to: 'ololo@trololo.local', subject: 'Email confirmation for your qna account')
   end
 end
