@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   devise_scope :user do
-    post 'send_email_confirmation', to: 'omniauth_callbacks#send_email_confirmation', as: :send_email_confirmation
-    get 'email_confirmation/:token', to: 'omniauth_callbacks#email_confirmation', as: :email_confirmation
+    post 'send_email_confirmation', to: 'omniauth_callbacks#send_email_confirmation',
+                                    as: :send_email_confirmation
+    get 'email_confirmation/:token', to: 'omniauth_callbacks#email_confirmation',
+                                     as: :email_confirmation
   end
 
   concern :voteable do

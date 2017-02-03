@@ -17,18 +17,18 @@ class User < ApplicationRecord
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.find_by(email: email)
-    if user
-      user.create_authorization(auth)
-    else
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      user.create_authorization(auth)
-    end
+
+    user = User.find_by(email: email) || User.generate_user(email)
+    user.create_authorization(auth)
     user
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid, confirmed: true)
+    authorizations.create(provider: auth.provider, uid: auth.uid, confirmed: true)
+  end
+
+  def self.generate_user(email)
+    password = Devise.friendly_token[0, 20]
+    User.create!(email: email, password: password, password_confirmation: password)
   end
 end
