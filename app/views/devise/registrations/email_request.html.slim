@@ -1,0 +1,10 @@
+= form_tag send_email_confirmation_path, method: :post, html: { class: 'form-horizontal' } do
+  .form-group
+    .col-sm-5
+      = label_tag :email
+      = text_field_tag :email
+  = hidden_field_tag :provider, @auth.provider
+  = hidden_field_tag :uid, @auth.uid
+  .form-group
+    .col-sm-10
+      = submit_tag 'Save', class: 'btn btn-success'

@@ -46,6 +46,7 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'capybara-screenshot'
+  gem 'capybara-email'
 end
 
 group :development do
@@ -57,6 +58,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'letter_opener'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -85,3 +87,9 @@ gem 'skim'
 gem 'gon'
 
 gem 'responders'
+
+gem 'omniauth'
+
+gem 'omniauth-facebook'
+
+gem 'omniauth-twitter'
