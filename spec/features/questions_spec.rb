@@ -25,7 +25,7 @@ feature 'Create question', '
   scenario 'Non-authenticated user tries to create question' do
     visit new_question_path
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'You are not authorized to access this page'
   end
 
   scenario 'Authenticated user tries to create question with invalid content' do

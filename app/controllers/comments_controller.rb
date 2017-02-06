@@ -2,11 +2,11 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable, except: :destroy
-  before_action :find_comment, only: :destroy
   after_action :publish_comment, only: :create
 
   respond_to :js
 
+  load_resource only: :destroy
   authorize_resource
 
   def new
@@ -25,10 +25,6 @@ class CommentsController < ApplicationController
   end
 
   private
-
-  def find_comment
-    @comment = Comment.find(params[:id])
-  end
 
   def comment_params
     params.require(:comment).permit(:body)

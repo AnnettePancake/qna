@@ -4,13 +4,13 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :find_question, only: [:create]
-  before_action :find_answer, except: [:create, :like, :dislike]
 
   after_action :publish_answer, only: [:create]
 
   respond_to :js
 
-  authorize_resource
+  load_resource :question
+  load_and_authorize_resource :answer, through: :question, shallow: true, except: [:like, :dislike]
 
   def create
     @answer = current_user.answers.create(
@@ -35,10 +35,6 @@ class AnswersController < ApplicationController
 
   def find_question
     @question = Question.find(params[:question_id])
-  end
-
-  def find_answer
-    @answer = Answer.find(params[:id])
   end
 
   def answer_params

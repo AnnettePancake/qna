@@ -7,7 +7,7 @@ shared_examples 'votes' do
   describe 'POST #like' do
     it 'saves like in the database with correct value' do
       expect do
-        post :like, params: { id: voteable.id }, format: :js
+        post :like, xhr: true, params: { id: voteable.id }
       end.to change(voteable.votes, :count).by(1)
 
       expect(voteable.votes.last.value).to eq 1
@@ -17,7 +17,7 @@ shared_examples 'votes' do
   describe 'POST #dislike' do
     it 'saves dislike in the database with correct value' do
       expect do
-        post :dislike, params: { id: voteable.id }, format: :js
+        post :dislike, xhr: true, params: { id: voteable.id }
       end.to change(voteable.votes, :count).by(1)
 
       expect(voteable.votes.last.value).to eq(-1)

@@ -13,7 +13,7 @@ RSpec.describe AnswersController, type: :controller do
   sign_in_user(:user)
 
   describe 'GET #edit' do
-    before { xhr :get, :edit, params: { id: answer.id, question_id: question.id, format: :js } }
+    before { get :edit, xhr: true, params: { id: answer.id, question_id: question.id } }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -28,14 +28,14 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect do
-          post :create, params: { question_id: question.id, answer: attributes_for(:answer),
-                                  format: :js }
+          post :create, xhr: true, params: { question_id: question.id,
+                                             answer: attributes_for(:answer) }
         end.to change(question.answers, :count).by(1)
       end
 
       it 'render create template' do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer),
-                                format: :js }
+        post :create, xhr: true, params: { question_id: question.id,
+                                           answer: attributes_for(:answer) }
         expect(response).to render_template :create
       end
     end
@@ -44,14 +44,14 @@ RSpec.describe AnswersController, type: :controller do
   context 'with invalid attributes' do
     it 'does not save new answer' do
       expect do
-        post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer),
-                                format: :js }
+        post :create, xhr: true, params: { question_id: question.id,
+                                           answer: attributes_for(:invalid_answer) }
       end.not_to change(Answer, :count)
     end
 
     it 'render create template' do
-      post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer),
-                              format: :js }
+      post :create, xhr: true, params: { question_id: question.id,
+                                         answer: attributes_for(:invalid_answer) }
       expect(response).to render_template :create
     end
   end
@@ -59,18 +59,18 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+        patch :update, xhr: true, params: { id: answer, answer: attributes_for(:answer) }
         expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
+        patch :update, xhr: true, params: { id: answer, answer: { body: 'new body' } }
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'renders update template' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+        patch :update, xhr: true, params: { id: answer, answer: attributes_for(:answer) }
 
         expect(response).to render_template :update
       end
@@ -79,7 +79,7 @@ RSpec.describe AnswersController, type: :controller do
 
   context 'with invalid attributes' do
     before do
-      patch :update, params: { id: answer, answer: attributes_for(:invalid_answer), format: :js }
+      patch :update, xhr: true, params: { id: answer, answer: attributes_for(:invalid_answer) }
     end
 
     it 'does not change answer attributes' do
@@ -97,7 +97,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'deletes answer' do
       expect do
-        delete :destroy, params: { id: answer.id, format: :js }
+        delete :destroy, xhr: true, params: { id: answer.id }
       end.to change(Answer, :count).by(-1)
     end
   end
@@ -107,12 +107,12 @@ RSpec.describe AnswersController, type: :controller do
     let(:another_answer) { create(:answer, body: 'MyText2', best: false) }
 
     it 'toggles best answer if current user is author of question' do
-      post :toggle_best, params: { id: answer.id, format: :js }
+      post :toggle_best, xhr: true, params: { id: answer.id }
       expect(answer.reload.best).to be_truthy
     end
 
     it 'toggles best answer if current user is author of question' do
-      post :toggle_best, params: { id: another_answer.id, format: :js }
+      post :toggle_best, xhr: true, params: { id: another_answer.id }
       expect(another_answer.reload.best).to be_falsey
     end
   end

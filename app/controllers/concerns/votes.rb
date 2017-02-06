@@ -5,6 +5,8 @@ module Votes
   included do
     before_action :authenticate_user!, only: [:like, :dislike]
     before_action :set_voteable, only: [:like, :dislike]
+
+    authorize_resource :voteable
   end
 
   def like

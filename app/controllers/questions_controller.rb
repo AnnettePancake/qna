@@ -2,8 +2,9 @@
 class QuestionsController < ApplicationController
   include Votes
 
+  load_and_authorize_resource
+
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :build_answer, only: :show
   before_action :gon_question, only: :show
 
@@ -11,10 +12,8 @@ class QuestionsController < ApplicationController
 
   respond_to :js
 
-  authorize_resource
-
   def index
-    respond_with(@questions = Question.all)
+    respond_with(@questions)
   end
 
   def show
@@ -23,7 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    respond_with(@question = Question.new)
+    respond_with(@question)
   end
 
   def create
@@ -39,10 +38,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def find_question
-    @question = Question.find(params[:id])
-  end
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])

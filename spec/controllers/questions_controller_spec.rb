@@ -57,7 +57,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     sign_in_user(:user)
 
-    before { xhr :get, :edit, params: { id: question, format: :js } }
+    before { get :edit, xhr: true, params: { id: question } }
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
@@ -103,28 +103,28 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        patch :update, xhr: true, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' },
-                                 format: :js }
+        patch :update, xhr: true, params: { id: question,
+                                            question: { title: 'new title', body: 'new body' } }
         question.reload
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
 
       it 'renders update template' do
-        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        patch :update, xhr: true, params: { id: question, question: attributes_for(:question) }
         expect(response).to render_template :update
       end
     end
 
     context 'invalid attributes' do
       before do
-        patch :update, params: { id: question, question: { title: 'new title', body: nil },
-                                 format: :js }
+        patch :update, xhr: true, params: { id: question,
+                                            question: { title: 'new title', body: nil } }
       end
 
       it 'does not change question attributes' do
