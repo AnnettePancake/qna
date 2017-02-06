@@ -7,6 +7,8 @@ class CommentsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def new
     respond_with(@comment = @commentable.comments.new)
   end
@@ -19,7 +21,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    respond_with(@comment.destroy) if can_manage_comment?
+    respond_with(@comment.destroy)
   end
 
   private
@@ -30,10 +32,6 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body)
-  end
-
-  def can_manage_comment?
-    @comment.user_id == current_user.id
   end
 
   def set_commentable

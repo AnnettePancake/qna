@@ -8,15 +8,11 @@ module Votes
   end
 
   def like
-    return unless can_vote?
-
     @voteable.toggle_rating(current_user, 1)
     render 'votes/toggle_rating'
   end
 
   def dislike
-    return unless can_vote?
-
     @voteable.toggle_rating(current_user, -1)
     render 'votes/toggle_rating'
   end
@@ -29,9 +25,5 @@ module Votes
 
   def set_voteable
     @voteable = model_klass.find(params[:id])
-  end
-
-  def can_vote?
-    @voteable.user_id != current_user.id
   end
 end

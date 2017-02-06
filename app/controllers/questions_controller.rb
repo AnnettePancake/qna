@@ -11,6 +11,8 @@ class QuestionsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def index
     respond_with(@questions = Question.all)
   end
@@ -29,12 +31,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return unless can_manage_question?
     respond_with @question.update(question_params)
   end
 
   def destroy
-    respond_with(@question.destroy) if can_manage_question?
+    respond_with(@question.destroy)
   end
 
   private
@@ -45,10 +46,6 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
-  end
-
-  def can_manage_question?
-    @question.user_id == current_user.id
   end
 
   def build_answer

@@ -23,7 +23,7 @@ feature 'Create question', '
   end
 
   scenario 'Non-authenticated user tries to create question' do
-    ask_question
+    visit new_question_path
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

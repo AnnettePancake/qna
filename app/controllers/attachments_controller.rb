@@ -5,8 +5,10 @@ class AttachmentsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def destroy
-    respond_with(@attachment.destroy) if can_manage_attachment?
+    respond_with(@attachment.destroy)
   end
 
   private
@@ -17,9 +19,5 @@ class AttachmentsController < ApplicationController
 
   def attachment_params
     params.require(:attachment).permit(:id, :file)
-  end
-
-  def can_manage_attachment?
-    @attachment.attachable.user_id == current_user.id
   end
 end

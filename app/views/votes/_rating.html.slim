@@ -1,5 +1,5 @@
 .rating id="rating-#{voteable.class.name}-#{voteable.id}"
-  - if current_user && current_user != voteable.user
+  - if can?(:like, voteable)
     .btn-group
       = link_to polymorphic_path([:like, voteable]), method: :post, remote: true, class: 'btn' do
         span.glyphicon.glyphicon-thumbs-up class="#{'selected' if liked?(voteable)}"
