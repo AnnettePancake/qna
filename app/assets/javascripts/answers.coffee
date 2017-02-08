@@ -8,7 +8,6 @@ jQuery ->
       @perform 'follow_answer'
 
     received: (data) ->
-      console.log data
       $('.answers').append(JST["skim/answer"]({
         answer: data.answer,
         question: data.question,

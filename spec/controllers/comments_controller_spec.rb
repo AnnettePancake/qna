@@ -19,7 +19,7 @@ RSpec.describe CommentsController, type: :controller do
 
       before do
         get :new, xhr: true, params: { commentable_id => @commentable.id,
-                                       commentable: commentable_type, format: :js }
+                                       commentable: commentable_type }
       end
 
       it 'assigns a new comment to @comment' do
@@ -39,15 +39,16 @@ RSpec.describe CommentsController, type: :controller do
       context 'with valid attributes' do
         it 'saves the new comment in the database' do
           expect do
-            post :create, params: { commentable_id => @commentable.id,
-                                    commentable: commentable_type,
-                                    comment: attributes_for(:comment), format: :js }
+            post :create, xhr: true, params: { commentable_id => @commentable.id,
+                                               commentable: commentable_type,
+                                               comment: attributes_for(:comment) }
           end.to change(@commentable.comments, :count).by(1)
         end
 
         it 'render create template' do
-          post :create, params: { commentable_id => @commentable.id, commentable: commentable_type,
-                                  comment: attributes_for(:comment), format: :js }
+          post :create, xhr: true, params: { commentable_id => @commentable.id,
+                                             commentable: commentable_type,
+                                             comment: attributes_for(:comment) }
           expect(response).to render_template :create
         end
       end
@@ -56,14 +57,16 @@ RSpec.describe CommentsController, type: :controller do
     context 'with invalid attributes' do
       it 'does not save new comment' do
         expect do
-          post :create, params: { commentable_id => @commentable.id, commentable: commentable_type,
-                                  comment: attributes_for(:invalid_comment), format: :js }
+          post :create, xhr: true, params: { commentable_id => @commentable.id,
+                                             commentable: commentable_type,
+                                             comment: attributes_for(:invalid_comment) }
         end.not_to change(Comment, :count)
       end
 
       it 'render create template' do
-        post :create, params: { commentable_id => @commentable.id, commentable: commentable_type,
-                                comment: attributes_for(:invalid_comment), format: :js }
+        post :create, xhr: true, params: { commentable_id => @commentable.id,
+                                           commentable: commentable_type,
+                                           comment: attributes_for(:invalid_comment) }
         expect(response).to render_template :create
       end
     end
@@ -71,7 +74,7 @@ RSpec.describe CommentsController, type: :controller do
     describe 'DELETE #destroy' do
       it 'deletes comment' do
         expect do
-          delete :destroy, params: { id: comment.id, format: :js }
+          delete :destroy, xhr: true, params: { id: comment.id }
         end.to change(Comment, :count).by(-1)
       end
     end

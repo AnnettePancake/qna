@@ -12,7 +12,7 @@ RSpec.describe AttachmentsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'deletes attachment' do
       expect do
-        delete :destroy, params: { id: attachment.id, format: :js }
+        delete :destroy, xhr: true, params: { id: attachment.id }
       end.to change(Attachment, :count).by(-1)
     end
   end

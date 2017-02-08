@@ -8,6 +8,7 @@ require 'rspec/rails'
 # require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'capybara/email/rspec'
+require 'cancan/matchers'
 
 Capybara.default_max_wait_time = 5
 # Add additional requires below this line. Rails is not loaded until this point!

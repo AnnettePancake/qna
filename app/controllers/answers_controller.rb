@@ -4,11 +4,14 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :find_question, only: [:create]
-  before_action :find_answer, except: [:create, :like, :dislike]
 
   after_action :publish_answer, only: [:create]
 
   respond_to :js
+
+  load_resource :question
+  load_and_authorize_resource :answer, through: :question, shallow: true,
+                                       only: [:create, :edit, :update, :destroy, :toggle_best]
 
   def create
     @answer = current_user.answers.create(
@@ -18,16 +21,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-    return unless can_manage_answer?
     respond_with @answer.update(answer_params)
   end
 
   def destroy
-    respond_with(@answer.destroy) if can_manage_answer?
+    respond_with(@answer.destroy)
   end
 
   def toggle_best
-    return unless @answer.question.user_id == current_user.id
     respond_with(@answer.toggle_best)
   end
 
@@ -35,10 +36,6 @@ class AnswersController < ApplicationController
 
   def find_question
     @question = Question.find(params[:question_id])
-  end
-
-  def find_answer
-    @answer = Answer.find(params[:id])
   end
 
   def answer_params

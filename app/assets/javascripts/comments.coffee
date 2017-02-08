@@ -8,7 +8,6 @@ jQuery ->
       @perform 'follow_comment'
 
     received: (data) ->
-      console.log data
       $("#comments-#{data.commentable.class}-#{data.commentable.id}").append(JST["skim/comment"]({
           comment: data.comment
         }));

@@ -2,10 +2,12 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable, except: :destroy
-  before_action :find_comment, only: :destroy
   after_action :publish_comment, only: :create
 
   respond_to :js
+
+  load_resource only: :destroy
+  authorize_resource
 
   def new
     respond_with(@comment = @commentable.comments.new)
@@ -19,21 +21,13 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    respond_with(@comment.destroy) if can_manage_comment?
+    respond_with(@comment.destroy)
   end
 
   private
 
-  def find_comment
-    @comment = Comment.find(params[:id])
-  end
-
   def comment_params
     params.require(:comment).permit(:body)
-  end
-
-  def can_manage_comment?
-    @comment.user_id == current_user.id
   end
 
   def set_commentable
