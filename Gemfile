@@ -47,6 +47,7 @@ group :test do
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'capybara-screenshot'
   gem 'capybara-email'
+  gem 'json_spec'
 end
 
 group :development do
