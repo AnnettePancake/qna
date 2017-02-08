@@ -95,3 +95,5 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
 gem 'cancancan'
+
+gem 'doorkeeper'
