@@ -10,7 +10,8 @@ class AnswersController < ApplicationController
   respond_to :js
 
   load_resource :question
-  load_and_authorize_resource :answer, through: :question, shallow: true, except: [:like, :dislike]
+  load_and_authorize_resource :answer, through: :question, shallow: true,
+                                       only: [:create, :edit, :update, :destroy, :toggle_best]
 
   def create
     @answer = current_user.answers.create(
