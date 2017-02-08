@@ -29,5 +29,6 @@ AllCops:
     - 'doc/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
+    - 'config/routes.rb'
 RSpec/ExampleLength:
   Enabled: false
