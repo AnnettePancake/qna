@@ -64,37 +64,23 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 gem 'rubocop', require: false
-
 gem 'rails-controller-testing'
-
 gem 'slim-rails'
-
 gem 'devise'
-
 gem 'ffaker'
-
 gem 'bootstrap-sass'
-
 gem 'carrierwave'
-
 gem 'remotipart'
-
 gem 'cocoon'
-
 gem 'skim'
-
 gem 'gon'
-
 gem 'responders'
-
 gem 'omniauth'
-
 gem 'omniauth-facebook'
-
 gem 'omniauth-twitter'
-
 gem 'cancancan'
-
 gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
