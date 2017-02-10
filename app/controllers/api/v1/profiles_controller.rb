@@ -8,7 +8,7 @@ module Api
         respond_with current_resource_owner
       end
 
-      def list
+      def index
         respond_with(User.where.not(id: current_resource_owner.id))
       end
     end
