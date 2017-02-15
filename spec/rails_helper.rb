@@ -9,6 +9,9 @@ require 'rspec/rails'
 require 'capybara-screenshot/rspec'
 require 'capybara/email/rspec'
 require 'cancan/matchers'
+require 'sidekiq/testing'
+
+Sidekiq::Testing.fake!
 
 Capybara.default_max_wait_time = 5
 # Add additional requires below this line. Rails is not loaded until this point!
