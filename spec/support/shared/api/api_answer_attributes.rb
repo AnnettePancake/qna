@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_examples 'API Answer attributes' do
   %w(id body created_at updated_at).each do |attr|
     it "contains #{attr}" do

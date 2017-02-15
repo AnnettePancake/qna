@@ -24,7 +24,7 @@ describe 'Answers API' do
     end
 
     def do_request(options = {})
-      get "/api/v1/questions/#{question.id}/answers", { format: :json }.merge(options)
+      get "/api/v1/questions/#{question.id}/answers", params: { format: :json }.merge(options)
     end
   end
 
@@ -52,7 +52,8 @@ describe 'Answers API' do
     end
 
     def do_request(options = {})
-      get "/api/v1/questions/#{question.id}/answers/#{answer.id}", { format: :json }.merge(options)
+      get "/api/v1/questions/#{question.id}/answers/#{answer.id}",
+          params: { format: :json }.merge(options)
     end
   end
 
@@ -64,7 +65,7 @@ describe 'Answers API' do
     it_behaves_like 'API Create object', :answer
 
     def do_request(options = {})
-      get "/api/v1/questions/#{question.id}/answers", { format: :json }.merge(options)
+      get "/api/v1/questions/#{question.id}/answers", params: { format: :json }.merge(options)
     end
   end
 end

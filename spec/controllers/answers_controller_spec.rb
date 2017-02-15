@@ -39,20 +39,20 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :create
       end
     end
-  end
 
-  context 'with invalid attributes' do
-    it 'does not save new answer' do
-      expect do
+    context 'with invalid attributes' do
+      it 'does not save new answer' do
+        expect do
+          post :create, xhr: true, params: { question_id: question.id,
+                                             answer: attributes_for(:invalid_answer) }
+        end.not_to change(Answer, :count)
+      end
+
+      it 'render create template' do
         post :create, xhr: true, params: { question_id: question.id,
                                            answer: attributes_for(:invalid_answer) }
-      end.not_to change(Answer, :count)
-    end
-
-    it 'render create template' do
-      post :create, xhr: true, params: { question_id: question.id,
-                                         answer: attributes_for(:invalid_answer) }
-      expect(response).to render_template :create
+        expect(response).to render_template :create
+      end
     end
   end
 

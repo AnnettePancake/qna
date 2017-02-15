@@ -239,6 +239,61 @@ feature 'User deletes his attachment', '
   end
 end
 
+feature 'Subscription for question update', '
+  As an aunthenticated user
+  I want to be able to subscribe to question' do
+
+  given(:user) { create(:user) }
+  given!(:user_question) { create(:question, user: user) }
+  given!(:another_question) { create(:question) }
+
+  before do
+    sign_in(user)
+  end
+
+  scenario 'Authenticated user can subscribe to question', js: true do
+    visit question_path(id: another_question.id)
+
+    within '.subscription' do
+      click_on 'Subscribe'
+      wait_for_ajax
+      expect(page).to have_content 'Unsubscribe'
+    end
+  end
+
+  scenario "Authenticated user can't subscribe to his question", js: true do
+    visit question_path(id: user_question.id)
+
+    within '.subscription' do
+      expect(page).not_to have_content 'Subscribe'
+    end
+  end
+
+  scenario 'Authenticated user can unsubscribe to question', js: true do
+    visit question_path(id: another_question.id)
+
+    within '.subscription' do
+      click_on 'Subscribe'
+      wait_for_ajax
+      expect(page).to have_content 'Unsubscribe'
+
+      click_on 'Unsubscribe'
+      wait_for_ajax
+      expect(page).to have_content 'Subscribe'
+    end
+  end
+
+  scenario 'Authenticated user can unsubscribe to his question', js: true do
+    visit question_path(id: user_question.id)
+
+    within '.subscription' do
+      click_on 'Unsubscribe'
+      wait_for_ajax
+      expect(page).to have_content 'Subscribe'
+    end
+  end
+end
+
 def ask_question
   visit questions_path
   click_on 'Ask question'

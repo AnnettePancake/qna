@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_examples_for 'API Attachable' do
   context 'attachments' do
     it 'included in question object' do

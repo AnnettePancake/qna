@@ -11,6 +11,7 @@ ul
         = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
 
 = render 'votes/rating', voteable: @question
+p= render 'subscriptions/subscription'
 
 - if can?(:edit, @question)
   div

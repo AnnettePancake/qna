@@ -37,7 +37,7 @@ describe 'Questions API' do
     end
 
     def do_request(options = {})
-      get '/api/v1/questions', { format: :json }.merge(options)
+      get '/api/v1/questions', params: { format: :json }.merge(options)
     end
   end
 
@@ -64,17 +64,16 @@ describe 'Questions API' do
     end
 
     def do_request(options = {})
-      get "/api/v1/questions/#{question.id}", { format: :json }.merge(options)
+      get "/api/v1/questions/#{question.id}", params: { format: :json }.merge(options)
     end
   end
 
   describe 'GET /create' do
-
     it_behaves_like 'API Authenticable'
     it_behaves_like 'API Create object', :question
 
     def do_request(options = {})
-      get '/api/v1/questions', { format: :json }.merge(options)
+      get '/api/v1/questions', params: { format: :json }.merge(options)
     end
   end
 end

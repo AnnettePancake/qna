@@ -3,7 +3,6 @@ class AnswersController < ApplicationController
   include Votes
 
   before_action :authenticate_user!
-  before_action :find_question, only: [:create]
 
   after_action :publish_answer, only: [:create]
 
@@ -33,10 +32,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def find_question
-    @question = Question.find(params[:question_id])
-  end
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])

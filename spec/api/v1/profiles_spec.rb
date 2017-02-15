@@ -30,7 +30,7 @@ describe 'Profile API' do
     end
 
     def do_request(options = {})
-      get '/api/v1/profiles/me', { format: :json }.merge(options)
+      get '/api/v1/profiles/me', params: { format: :json }.merge(options)
     end
   end
 
@@ -59,7 +59,7 @@ describe 'Profile API' do
     end
 
     def do_request(options = {})
-      get '/api/v1/profiles/me', { format: :json }.merge(options)
+      get '/api/v1/profiles/me', params: { format: :json }.merge(options)
     end
   end
 end
