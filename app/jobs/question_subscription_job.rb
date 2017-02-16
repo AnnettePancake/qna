@@ -3,8 +3,8 @@ class QuestionSubscriptionJob < ActiveJob::Base
   queue_as :default
 
   def perform(question, answer)
-    question.subscriptions.each do |subscription|
-      QuestionMailer.question_subscription(subscription.user, answer).deliver_later
+    question.subscribers.find_each do |user|
+      QuestionMailer.question_subscription(user, answer).deliver_later
     end
   end
 end

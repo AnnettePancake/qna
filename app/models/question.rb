@@ -6,6 +6,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
 
   belongs_to :user
 
@@ -13,7 +14,7 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, allow_destroy: true
 
-  scope :past_day, -> { where(created_at: 24.hours.ago..Time.zone.now) }
+  scope :past_day, -> { where(created_at: 1.day.ago.all_day) }
 
   after_create :subscribe_author
 

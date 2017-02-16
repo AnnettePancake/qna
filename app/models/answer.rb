@@ -15,7 +15,7 @@ class Answer < ApplicationRecord
   scope :best_answers_except, ->(answer) { where(best: true).where.not(id: answer.id) }
   scope :ordered, -> { order(best: :desc, created_at: :asc) }
 
-  after_create :send_subscription
+  after_commit :send_subscription, on: :create
 
   def toggle_best
     with_lock do
