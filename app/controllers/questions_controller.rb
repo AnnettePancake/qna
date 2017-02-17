@@ -18,6 +18,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers.ordered
+    @subscription = @question.subscriptions.find_by(user_id: current_user.id) if current_user
     respond_with @question
   end
 

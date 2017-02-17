@@ -1,11 +1,14 @@
+# frozen_string_literal: true
 shared_examples 'API Create object' do |entity|
   context 'authorized' do
     let!(:access_token) { create(:access_token) }
 
     context 'valid params' do
-      let(:object) { post "/api/v1/questions/#{path}",
-                          params: { format: :json, access_token: access_token.token,
-                                    entity => attributes_for(entity) } }
+      let(:object) do
+        post "/api/v1/questions/#{path}",
+             params: { format: :json, access_token: access_token.token,
+                       entity => attributes_for(entity) }
+      end
 
       it 'returns 201 status code' do
         object
@@ -18,9 +21,11 @@ shared_examples 'API Create object' do |entity|
     end
 
     context 'invalid params' do
-      let(:object) { post "/api/v1/questions/#{path}",
-                          params: { format: :json, access_token: access_token.token,
-                                    entity => attributes_for(:"invalid_#{entity}") } }
+      let(:object) do
+        post "/api/v1/questions/#{path}",
+             params: { format: :json, access_token: access_token.token,
+                       entity => attributes_for(:"invalid_#{entity}") }
+      end
 
       it 'returns 422 status code' do
         object

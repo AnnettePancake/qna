@@ -30,6 +30,8 @@ describe Ability do
     let(:answer) { create :answer, user: user }
     let(:another_answer) { create :answer, user: another_user }
 
+    let(:subscription) { create :subscription, user: user }
+
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
@@ -98,6 +100,12 @@ describe Ability do
 
       it { should be_able_to :destroy, answer_attachment, user: user }
       it { should_not be_able_to :destroy, another_answer_attachment, user: user }
+    end
+
+    context 'Subscription' do
+      it { should be_able_to :create, Subscription }
+
+      it { should be_able_to :destroy, subscription, user: user }
     end
   end
 end
