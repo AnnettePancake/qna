@@ -88,3 +88,5 @@ gem 'sidekiq'
 gem 'sinatra', require: nil
 gem 'sidetiq'
 gem 'whenever'
+gem 'mysql2'
+gem 'thinking-sphinx'
