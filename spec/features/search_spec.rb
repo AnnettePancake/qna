@@ -14,7 +14,7 @@ feature 'Search', '
     visit root_path
   end
 
-  scenario 'Search with no matches', type: :request do
+  scenario 'Search with no matches', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: 'Title'
       click_on 'Search'
@@ -25,7 +25,7 @@ feature 'Search', '
     end
   end
 
-  scenario 'Search in all classes', type: :request, js: true do
+  scenario 'Search in all classes', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: 'Question'
       click_on 'Search'
@@ -36,7 +36,7 @@ feature 'Search', '
     end
   end
 
-  scenario 'Search in Question', type: :request do
+  scenario 'Search in Question', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: 'lalala'
       select 'Question', from: :search_entity
@@ -48,7 +48,7 @@ feature 'Search', '
     end
   end
 
-  scenario 'Search in Answer', type: :request do
+  scenario 'Search in Answer', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: 'Answer'
       select 'Answer', from: :search_entity
@@ -60,7 +60,7 @@ feature 'Search', '
     end
   end
 
-  scenario 'Search in Comment', type: :request do
+  scenario 'Search in Comment', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: 'Comment'
       select 'Comment', from: :search_entity
@@ -72,7 +72,7 @@ feature 'Search', '
     end
   end
 
-  scenario 'Search in User', type: :request do
+  scenario 'Search in User', sphinx: true do
     within 'form.search' do
       fill_in :search_query, with: '123456@test.com'
       select 'User', from: :search_entity

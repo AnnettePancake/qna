@@ -13,6 +13,9 @@ MethodLength:
 ClassLength:
   Max: 500
 
+Style/DoubleNegation:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
 
@@ -30,5 +33,3 @@ AllCops:
     - 'vendor/**/*'
     - 'tmp/**/*'
     - 'config/routes.rb'
-RSpec/ExampleLength:
-  Enabled: false
