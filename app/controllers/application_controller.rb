@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+  helper_method :search_entities_collection
+
   before_action :gon_user, unless: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -23,5 +25,9 @@ class ApplicationController < ActionController::Base
 
   def gon_user
     gon.user_id = current_user.id if current_user
+  end
+
+  def search_entities_collection
+    %w(Question Answer Comment User)
   end
 end

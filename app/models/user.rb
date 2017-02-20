@@ -2,6 +2,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook, :twitter]
@@ -12,6 +13,8 @@ class User < ApplicationRecord
   has_many :comments
   has_many :authorizations
   has_many :subscriptions, dependent: :destroy
+
+  after_save ThinkingSphinx::RealTime.callback_for(:user)
 
   def self.find_for_oauth(auth)
     authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)

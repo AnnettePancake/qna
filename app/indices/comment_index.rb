@@ -1,7 +1,6 @@
 # frozen_string_literal: true
-ThinkingSphinx::Index.define :question, with: :real_time do
+ThinkingSphinx::Index.define :comment, with: :real_time do
   # fields
-  indexes title, sortable: true
   indexes body
   indexes user.email, as: :author, sortable: true
 
