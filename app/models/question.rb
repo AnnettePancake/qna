@@ -10,6 +10,8 @@ class Question < ApplicationRecord
 
   belongs_to :user
 
+  after_save ThinkingSphinx::RealTime.callback_for(:question)
+
   validates :title, :body, :user_id, presence: true
 
   accepts_nested_attributes_for :attachments, allow_destroy: true

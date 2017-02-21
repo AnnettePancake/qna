@@ -8,6 +8,8 @@ class Answer < ApplicationRecord
 
   has_many :attachments, as: :attachable, dependent: :destroy
 
+  after_save ThinkingSphinx::RealTime.callback_for(:answer)
+
   validates :body, :question_id, :user_id, presence: true
 
   accepts_nested_attributes_for :attachments, allow_destroy: true

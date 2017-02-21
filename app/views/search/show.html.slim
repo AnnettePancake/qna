@@ -1,0 +1,10 @@
+h4 Results:
+.results
+  - if @result.blank?
+    = 'No matches'
+  - else
+    - @result.each do |result|
+      .panel.panel-info
+        .panel-body
+          - entity = result.class.to_s.downcase
+          = render entity, entity.to_sym => result
