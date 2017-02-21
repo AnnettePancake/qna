@@ -24,6 +24,9 @@
 # Ignore Byebug command history file.
 .byebug_history
 
+.ruby-version
+.ruby-gemset
+
 /config/database.yml
 /config/secrets.yml
 /config/*.sphinx.conf
