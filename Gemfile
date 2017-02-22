@@ -65,8 +65,6 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'dotenv'
-  gem 'dotenv-deployment', require: 'dotenv/deployment'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -98,3 +96,5 @@ gem 'whenever'
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'therubyracer'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'

@@ -19,11 +19,12 @@ set :deploy_user, 'deploy'
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', '.env', 'config/secrets.yml'
+append :linked_files, 'config/database.yml', '.env', 'config/secrets.yml',
+                      'config/production.sphinx.conf'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system',
-                     'public/uploads'
+                     'public/uploads', 'db/sphinx'
 
 namespace :deploy do
 
