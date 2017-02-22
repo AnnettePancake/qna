@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -9,7 +10,6 @@
 
 set :branch, 'production'
 
-
 # role-based syntax
 # ==================
 
@@ -18,9 +18,9 @@ set :branch, 'production'
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-role :app, %w{deploy@51.15.63.254}
-role :web, %w{deploy@51.15.63.254}
-role :db,  %w{deploy@51.15.63.254}
+role :app, %w(deploy@51.15.63.254)
+role :web, %w(deploy@51.15.63.254)
+role :db,  %w(deploy@51.15.63.254)
 
 set :rails_env, :production
 set :stage, :production
@@ -33,7 +33,7 @@ set :stage, :production
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-server '51.15.63.254', user: 'deploy', roles: %w{web app db}, primary: true
+server '51.15.63.254', user: 'deploy', roles: %w(web app db), primary: true
 
 # Custom SSH Options
 # ==================
@@ -43,9 +43,7 @@ server '51.15.63.254', user: 'deploy', roles: %w{web app db}, primary: true
 #
 # Global options
 # --------------
-set :ssh_options, {
-   keys: %w(~/.ssh/id_rsa),
-   forward_agent: true,
-   auth_methods: %w(publickey password),
-   port: 4321
-}
+set :ssh_options, keys: %w(~/.ssh/id_rsa),
+                  forward_agent: true,
+                  auth_methods: %w(publickey password),
+                  port: 4321

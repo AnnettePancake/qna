@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 # config valid only for current version of Capistrano
-lock "3.7.2"
+lock '3.7.2'
 
 set :application, 'qna'
 set :repo_url, 'git@github.com:AnnettePancake/qna.git'
@@ -16,17 +17,18 @@ set :deploy_user, 'deploy'
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
-# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
+# set :format_options, command_output: true, log_file: "log/capistrano.log",
+#                      color: :auto, truncate: :auto
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', '.env', 'config/secrets.yml'
+append :linked_files, 'config/database.yml', '.env', 'config/secrets.yml',
+       'config/production.sphinx.conf'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system',
-                     'public/uploads', 'db/sphinx'
+       'public/uploads', 'db/sphinx'
 
 namespace :deploy do
-
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
