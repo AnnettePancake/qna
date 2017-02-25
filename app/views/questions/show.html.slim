@@ -1,16 +1,17 @@
-div id="question_#{@question.id}"
-  = render 'content', question: @question
+- cache @question do
+  div id="question_#{@question.id}"
+    = render 'content', question: @question
 
-h4#answers_count= "#{@question.answers.size} Answers"
-hr
+  h4#answers_count= "#{@question.answers.count} Answers"
+  hr
 
-.answers
-  = render 'answers'
+  .answers
+    = render 'answers'
 
-.answer_form
-  - if can?(:create, Answer)
-    = render 'answers/form'
-  - else
-    = 'You need to sign in or sign up before continuing.'
+  .answer_form
+    - if can?(:create, Answer)
+      = render 'answers/form'
+    - else
+      = 'You need to sign in or sign up before continuing.'
 
-p= link_to 'Back', root_path, class: 'btn btn-default'
+  p= link_to 'Back', root_path, class: 'btn btn-default'
