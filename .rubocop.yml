@@ -31,5 +31,5 @@ AllCops:
     - 'bin/**/*'
     - 'doc/**/*'
     - 'vendor/**/*'
-    - 'tmp/**/*'
+    - 'tmp/*'
     - 'config/routes.rb'

@@ -46,9 +46,9 @@ class AnswersController < ApplicationController
 
     ActionCable.server.broadcast(
       "answer_question_#{@question.id}",
-      answer: @answer,
-      question: @question,
-      attachments: @answer.attachments
+      answer: AnswerSerializer.new(@answer),
+      question: QuestionSerializer.new(@question),
+      attachments: ActiveModel::Serializer::CollectionSerializer.new(@answer.attachments)
     )
   end
 end
