@@ -1,20 +1,22 @@
-h1= @question.title
-hr
-.lead= @question.body
-p Attachments:
-ul
-  li
-  - @question.attachments.each do |attachment|
-    div id="attachment_#{attachment.id}"
-      li= link_to attachment.file.identifier, attachment.file.url
-      - if can?(:destroy, attachment)
-        = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
+- cache [@question, can?(:edit, @question), user_signed_in?] do
+  h1= @question.title
+  hr
+  .lead= @question.body
+  - if @question.attachments.any?
+    p Attachments:
+    ul
+      li
+      - @question.attachments.each do |attachment|
+        div id="attachment_#{attachment.id}"
+          li= link_to attachment.file.identifier, attachment.file.url
+          - if can?(:destroy, attachment)
+            = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
 
-= render 'votes/rating', voteable: @question
-p= render 'subscriptions/subscription'
+  = render 'votes/rating', voteable: @question
+  p= render 'subscriptions/subscription'
 
-- if can?(:edit, @question)
-  div
-    p= link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
-    p= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
-= render 'comments/comments', commentable: @question
+  - if can?(:edit, @question)
+    div
+      p= link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
+      p= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
+  = render 'comments/comments', commentable: @question

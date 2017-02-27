@@ -6,7 +6,7 @@
   );
   $('#answer_body').val('');
   $('#answer-errors').html('');
-  $("#answers_count").html("<%= @question.answers.size %> Answers");
+  $("#answers_count").html("<%= @question.answers.count %> Answers");
 <% else %>
   $('.answer_form').html("<%= j render 'answers/form' %>")
 <% end %>

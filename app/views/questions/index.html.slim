@@ -2,8 +2,9 @@
   h1= 'Questions'
 
 .questions-list
-  - @questions.each do |question|
-    = render 'question', question: question
+  - cache collection_cache_key_for :question do
+    - @questions.each do |question|
+      = render 'question', question: question
 
 - if can?(:create, Question)
   div

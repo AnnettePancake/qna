@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Comment < ApplicationRecord
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
   after_save ThinkingSphinx::RealTime.callback_for(:comment)
