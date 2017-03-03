@@ -1,7 +1,26 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
+@import answers
+@import attachments
+@import comments
+@import questions
+@import votes
 
+//= require dropzone
 //= require_self
 
-.selected
-  color: green
+.glyphicon-trash
+  text-decoration: none
+  color: #ff4444
+
+.glyphicon-pencil
+  color: #00C851
+
+.glyphicon-remove
+  color: #ff4444
+
+.search input, select
+  margin-right: 3px
+
+form
+  margin-top: 10px

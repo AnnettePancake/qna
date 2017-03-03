@@ -1,0 +1,9 @@
+- if object.attachments.any?
+  p Attachments:
+  ul.list-group
+    - object.attachments.each do |attachment|
+      li.list-group-item id="attachment_#{attachment.id}"
+        = link_to attachment.file.identifier, attachment.file.url
+        - if can?(:destroy, attachment)
+          .pull-right= link_to attachment, remote: true, method: :delete, class: 'btn btn-xs' do
+            span.glyphicon.glyphicon-remove

@@ -8,11 +8,13 @@ class SubscriptionsController < ApplicationController
   respond_to :js
 
   def create
-    respond_with(@subscription = current_user.subscriptions.create(question_id: @question.id))
+    @subscription = current_user.subscriptions.create(question_id: @question.id)
+    render :toggle_subscription
   end
 
   def destroy
     @question = @subscription.question
-    respond_with(@subscription.destroy)
+    @subscription.destroy
+    render :toggle_subscription
   end
 end

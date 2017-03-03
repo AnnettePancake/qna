@@ -3,7 +3,9 @@
     - if can?(:like, voteable)
       .btn-group
         = link_to polymorphic_path([:like, voteable]), method: :post, remote: true, class: 'btn' do
-          span.glyphicon.glyphicon-thumbs-up class="#{'selected' if liked?(voteable)}"
+          span.glyphicon.glyphicon-chevron-up class="#{'selected' if liked?(voteable)}"
+    p= "#{voteable.rating.to_i}"
+    - if can?(:dislike, voteable)
+      .btn-group
         = link_to polymorphic_path([:dislike, voteable]), method: :post, remote: true, class: 'btn' do
-          span.glyphicon.glyphicon-thumbs-down class="#{'selected' if disliked?(voteable)}"
-    = "#{voteable.rating.to_i} Likes"
+          span.glyphicon.glyphicon-chevron-down class="#{'selected' if disliked?(voteable)}"

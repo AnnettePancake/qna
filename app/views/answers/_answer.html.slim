@@ -1,21 +1,22 @@
 - cache [answer, can?(:edit, answer), user_signed_in?] do
-  ul.media-list
-    li.media-body= answer.body
-    - if answer.attachments.any?
-      p Attachments:
-      ul
-        - answer.attachments.each do |attachment|
-          div id="attachment_#{attachment.id}"
-            li= link_to attachment.file.identifier, attachment.file.url
-            - if can?(:destroy, attachment)
-              = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
-    li
-      - if can?(:edit, answer)
-        p= link_to 'Edit', edit_answer_path(id: answer.id), 
-                          remote: true, class: 'btn btn-xs btn-primary'
-        p= link_to 'Delete', answer_path(id: answer.id), remote: true, method: :delete, class: 'btn btn-xs btn-danger'
-      - if can?(:toggle_best, answer)
-        = toggle_best_link(answer)
+  .row
+    .col-md-1
       = render 'votes/rating', voteable: answer
+      - if can?(:toggle_best, answer)
+        .toggle-best= toggle_best_link(answer)
+      - elsif answer.best
+        .toggle-best
+          .glyphicon.glyphicon-ok.selected
+    .col-md-11
+      - if can?(:edit, answer)
+        .btn-group
+        
+          = link_to edit_answer_path(id: answer.id), remote: true, class: 'btn btn-xs', title: 'Edit' do
+            span.glyphicon.glyphicon-pencil
+          = link_to answer_path(id: answer.id), remote: true, method: :delete, title: 'Delete', class: 'btn btn-xs' do
+            span.glyphicon.glyphicon-trash
+
+      p= answer.body
+      = render 'attachments/attachments_list', object: answer
       = render 'comments/comments', commentable: answer
-    hr
+  hr

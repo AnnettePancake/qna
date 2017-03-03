@@ -1,22 +1,20 @@
 - cache [@question, can?(:edit, @question), user_signed_in?] do
-  h1= @question.title
+  .question-title
+    h1= @question.title
+    - if user_signed_in?
+      .btn-group
+        button.btn-link.dropdown-toggle data-toggle="dropdown"
+          span.glyphicon.glyphicon-cog.question-settings
+        ul.dropdown-menu
+          - if can?(:edit, @question)
+            li= link_to 'Edit question', edit_question_path(id: @question.id), remote: true
+            li= link_to 'Delete question', question_path(@question), method: :delete
+          = render 'subscriptions/subscription'
   hr
-  .lead= @question.body
-  - if @question.attachments.any?
-    p Attachments:
-    ul
-      li
-      - @question.attachments.each do |attachment|
-        div id="attachment_#{attachment.id}"
-          li= link_to attachment.file.identifier, attachment.file.url
-          - if can?(:destroy, attachment)
-            = link_to 'Delete file', attachment, remote: true, method: :delete, class: 'btn btn-xs btn-danger'
-
-  = render 'votes/rating', voteable: @question
-  p= render 'subscriptions/subscription'
-
-  - if can?(:edit, @question)
-    div
-      p= link_to 'Edit question', edit_question_path(id: @question.id), remote: true, class: 'btn btn-xs btn-primary'
-      p= link_to 'Delete question', question_path(@question), method: :delete, class: 'btn btn-xs btn-danger'
-  = render 'comments/comments', commentable: @question
+  .row
+    .col-md-1
+      = render 'votes/rating', voteable: @question
+    .col-md-11
+      .lead= @question.body
+      = render 'attachments/attachments_list', object: @question
+      = render 'comments/comments', commentable: @question

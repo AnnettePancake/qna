@@ -79,7 +79,9 @@ feature 'User edits his question', '
   scenario 'Non-authenticated user tries to edit question' do
     visit question_path(id: another_question.id)
 
-    expect(page).not_to have_content 'Edit question'
+    within '.question-title' do
+      expect(page).not_to have_css('.question-settings')
+    end
   end
 
   scenario 'Authenticated user tries to edit his question', js: true do
@@ -87,6 +89,7 @@ feature 'User edits his question', '
     visit question_path(id: user_question.id)
 
     within "#question_#{user_question.id}" do
+      find(:css, '.question-settings').click
       click_on 'Edit question'
       fill_in :question_title, with: 'question'
       fill_in :question_body, with: 'text-text-text'
@@ -104,6 +107,7 @@ feature 'User edits his question', '
     visit question_path(id: another_question.id)
 
     within "#question_#{another_question.id}" do
+      find(:css, '.question-settings').click
       expect(page).not_to have_content('Edit question')
     end
 
@@ -159,7 +163,11 @@ feature 'User deletes his question', '
     sign_in(user)
     visit question_path(id: user_question.id)
 
-    click_on 'Delete question'
+    within "#question_#{user_question.id}" do
+      find(:css, '.question-settings').click
+      click_on 'Delete question'
+    end
+
     expect(current_path).to eq questions_path
     expect(page).not_to have_content(user_question.title)
   end
@@ -168,7 +176,10 @@ feature 'User deletes his question', '
     sign_in(user)
     visit question_path(id: another_question.id)
 
-    expect(page).not_to have_content('Delete question')
+    within "#question_#{another_question.id}" do
+      find(:css, '.question-settings').click
+      expect(page).not_to have_content('Delete question')
+    end
   end
 end
 
@@ -254,7 +265,8 @@ feature 'Subscription for question update', '
   scenario 'Authenticated user can subscribe to question', js: true do
     visit question_path(id: another_question.id)
 
-    within '.subscription' do
+    within "#question_#{another_question.id}" do
+      find(:css, '.question-settings').click
       click_on 'Subscribe'
       wait_for_ajax
       expect(page).to have_content 'Unsubscribe'
@@ -264,7 +276,8 @@ feature 'Subscription for question update', '
   scenario "Authenticated user can't subscribe to his question", js: true do
     visit question_path(id: user_question.id)
 
-    within '.subscription' do
+    within "#question_#{user_question.id}" do
+      find(:css, '.question-settings').click
       expect(page).not_to have_content 'Subscribe'
     end
   end
@@ -272,7 +285,8 @@ feature 'Subscription for question update', '
   scenario 'Authenticated user can unsubscribe to question', js: true do
     visit question_path(id: another_question.id)
 
-    within '.subscription' do
+    within "#question_#{another_question.id}" do
+      find(:css, '.question-settings').click
       click_on 'Subscribe'
       wait_for_ajax
       expect(page).to have_content 'Unsubscribe'
@@ -286,7 +300,8 @@ feature 'Subscription for question update', '
   scenario 'Authenticated user can unsubscribe to his question', js: true do
     visit question_path(id: user_question.id)
 
-    within '.subscription' do
+    within "#question_#{user_question.id}" do
+      find(:css, '.question-settings').click
       click_on 'Unsubscribe'
       wait_for_ajax
       expect(page).to have_content 'Subscribe'
