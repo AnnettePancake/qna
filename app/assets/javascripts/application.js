@@ -15,6 +15,7 @@
 //= require jquery.remotipart
 //= require action_cable
 //  require turbolinks
+//= require dropzone
 //= require_tree .
 //= require bootstrap-sprockets
 //= require cocoon

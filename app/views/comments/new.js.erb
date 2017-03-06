@@ -1,3 +1,6 @@
-$('#comments-<%= @commentable.class.name %>-<%= @commentable.id %>').append(
-  "<%= j render 'comments/form', commentable: @commentable, comment: @comment %>"
-);
+if ($('#new_comment').length > 0)
+  $('#new_comment').remove();
+else
+  $('#comments-<%= @commentable.class.name %>-<%= @commentable.id %>').append(
+    "<%= j render 'comments/form', commentable: @commentable, comment: @comment %>"
+  );

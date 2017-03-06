@@ -100,7 +100,9 @@ feature 'User edits his answer', '
   scenario 'Non-authenticated user tries to edit answer' do
     visit question_path(question)
 
-    expect(page).not_to have_content 'Edit'
+    within '.answers' do
+      expect(page).not_to have_css 'glyphicon-pencil'
+    end
   end
 
   scenario 'Authenticated user tries to edit his answer', js: true do
@@ -108,7 +110,8 @@ feature 'User edits his answer', '
     visit question_path(id: question.id)
 
     within "#answer_#{user_answer.id}" do
-      click_on 'Edit'
+      find(:css, 'span.glyphicon-pencil').click
+      wait_for_ajax
       fill_in :answer_body, with: 'text-text-text'
       click_on 'Save'
 
@@ -122,7 +125,7 @@ feature 'User edits his answer', '
     visit question_path(id: question.id)
 
     within "#answer_#{another_answer.id}" do
-      expect(page).not_to have_content('Edit')
+      expect(page).not_to have_css 'span.glyphicon-pencil'
     end
 
     expect(page).to have_content(another_answer.body)
@@ -146,7 +149,8 @@ feature 'User deletes his answer', '
 
   scenario 'Authenticated user can delete his answer', js: true do
     within "#answer_#{user_answer.id}" do
-      click_on 'Delete'
+      find(:css, 'span.glyphicon-trash').click
+      wait_for_ajax
     end
 
     expect(current_path).to eq question_path(question)
@@ -155,7 +159,7 @@ feature 'User deletes his answer', '
 
   scenario "Authenticated user can't delete someone else's answer" do
     within "#answer_#{another_answer.id}" do
-      expect(page).not_to have_content('Delete')
+      expect(page).not_to have_css 'span.glyphicon-trash'
     end
     expect(page).to have_content(another_answer.body)
   end
@@ -263,17 +267,17 @@ feature 'User deletes his attachment', '
 
   scenario 'Authenticated user can delete his attachment', js: true do
     within "#attachment_#{user_attachment.id}" do
-      click_on 'Delete file'
+      find(:css, 'span.glyphicon-remove').click
     end
 
-    expect(current_path).to eq question_path(question)
-    expect(page).not_to have_content(user_attachment.file)
+    expect(page).not_to have_css("#attachment_#{user_attachment.id}")
   end
 
   scenario "Authenticated user can't delete someone else's attachment" do
     within "#attachment_#{another_attachment.id}" do
-      expect(page).not_to have_content('Delete file')
+      expect(page).not_to have_css 'span.glyphicon-remove'
     end
-    expect(page).to have_content(another_attachment.file)
+
+    expect(page).to have_content(another_attachment.file_identifier)
   end
 end

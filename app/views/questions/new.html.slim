@@ -1,4 +1,5 @@
 h3= "New question"
 
-= render 'form'
-p= link_to 'Back', root_path, class: 'btn btn-default'
+.col-md-6
+  = render 'form' do
+    = link_to 'Back', root_path, class: 'btn btn-default'

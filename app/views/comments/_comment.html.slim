@@ -1,6 +1,6 @@
 - cache [comment, can?(:destroy, comment)] do
   hr
-  ul.media-list
-    - if can?(:destroy, comment)
-      = link_to '', comment_path(comment), remote: true, method: :delete, class: 'btn glyphicon glyphicon-trash'
-    li.media-body= comment.body
+  span= comment.body
+  - if can?(:destroy, comment)
+    = link_to comment_path(comment), remote: true, method: :delete, title: 'Delete', class: 'btn btn-xs' do
+      span.glyphicon.glyphicon-trash

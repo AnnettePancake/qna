@@ -4,14 +4,12 @@
       - @answer.errors.full_messages.each do |msg|
         .alert.alert-danger= msg
 
-  .form-group
-    .col-sm-5
+  .col-sm-5
+    .form-group
       = f.text_area :body, placeholder: 'Your answer', rows: 3, class: 'form-control'
-  .form-group
-    .col-sm-5   
+    .form-group
       = f.fields_for :attachments, @answer.attachments.build do |a|
         = link_to_add_association 'Add files', f, :attachments, class: 'btn btn-xs btn-primary',
           partial: 'attachments/fields'
-  .form-group
-    .col-sm-10
+    .form-group
       = f.submit 'Save', class: 'btn btn-success'
