@@ -12,6 +12,9 @@ set :repo_url, 'git@github.com:AnnettePancake/qna.git'
 set :deploy_to, '/home/deploy/qna'
 set :deploy_user, 'deploy'
 
+set :ssh_options, forward_agent: true
+set :use_sudo, false
+
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
