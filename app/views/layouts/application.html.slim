@@ -10,19 +10,21 @@ html
     = Gon::Base.render_data
   body
     .navbar.navbar-default
-      .collapse.navbar-collapse#bs-example-navbar-collapse-1
+      .collapse.navbar-collapse
         ul.nav.navbar-nav
+          li= link_to 'Home', questions_path
           - if current_user
+            li= link_to 'Ask question', new_question_path
             li= link_to 'Log out', destroy_user_session_path, method: :delete
           - else
             li= link_to 'Sign in', new_user_session_path
             li= link_to 'Sign up', new_user_registration_path
-        = form_tag search_path, method: :get, class: 'navbar-form navbar-right search' do
+        = form_tag search_path, method: :get, class: 'navbar-form navbar-right search form-inline' do
           .form-group
             = text_field_tag :search_query, params[:search_query], placeholder: 'Search', class: 'form-control'
-            = select_tag :search_entity, options_for_select(search_entities_collection, params[:search_entity]), 
-                                  prompt: '-- All --', class: 'form-control'
+            = select_tag :search_entity, options_for_select(search_entities_collection, params[:search_entity]),
+                                         prompt: '-- All --', class: 'selectpicker form-control'
           = submit_tag 'Search', class: 'btn btn-default'
     = bootstrap_flash
-    .container-fluid
+    .container
       = yield

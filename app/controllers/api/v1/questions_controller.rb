@@ -5,7 +5,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        respond_with @questions
+        respond_with @questions.order(updated_at: :desc)
       end
 
       def show

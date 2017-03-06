@@ -1,10 +1,10 @@
 <% if @comment.valid? %>
-  $('#comments-<%= @commentable.class.name %>-<%= @commentable.id %>').append(
+  $('#new_comment').remove();
+  $('#comments-<%= @commentable.class.name %>-<%= @commentable.id %> .comments-list').append(
     "<div id='comment-<%= @commentable.class.name %>-<%= @comment.id %>'>" +
       "<%= j render 'comments/comment', comment: @comment, commentable: @commentable %>" +
     "</div>"
   );
-  $('#comment_body').val('');
   $('#comment-errors').html('');
 <% else %>
   $('#comments-<%= @commentable.class.name %>-<%= @commentable.id %>').html(

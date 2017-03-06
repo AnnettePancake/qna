@@ -1,8 +1,8 @@
-.subscription
+li.subscription
   - if can?(:create, Subscription)
     - if @subscription && @subscription.persisted?
-      = link_to 'Unsubscribe', subscription_path(id: @subscription.id), 
-                               method: :delete, remote: true, class: 'btn btn-xs btn-danger'
+      = link_to 'Unsubscribe', subscription_path(id: @subscription.id), method: :delete,
+                               remote: true
     - else
-      = link_to 'Subscribe', question_subscriptions_path(question_id: @question), 
-                             method: :post, remote: true, class: 'btn btn-xs btn-primary'
+      = link_to 'Subscribe', question_subscriptions_path(question_id: @question), method: :post,
+                             remote: true

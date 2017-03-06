@@ -30,7 +30,7 @@ feature 'User votes for answer/question', '
       visit question_page(voteable)
 
       within "#rating-#{voteable.class.name}-#{voteable.id}" do
-        find(:css, '.glyphicon-thumbs-up').click
+        find(:css, '.glyphicon-chevron-up').click
         wait_for_ajax
 
         expect(page).to have_content '1'
@@ -42,7 +42,7 @@ feature 'User votes for answer/question', '
       visit question_page(voteable)
 
       within "#rating-#{voteable.class.name}-#{voteable.id}" do
-        find(:css, '.glyphicon-thumbs-down').click
+        find(:css, '.glyphicon-chevron-down').click
         wait_for_ajax
 
         expect(page).to have_content '-1'
@@ -63,12 +63,12 @@ feature 'User votes for answer/question', '
       visit question_page(voteable)
 
       within "#rating-#{voteable.class.name}-#{voteable.id}" do
-        find(:css, '.glyphicon-thumbs-down').click
+        find(:css, '.glyphicon-chevron-down').click
         wait_for_ajax
 
         expect(page).to have_content '-1'
 
-        find(:css, '.glyphicon-thumbs-down').click
+        find(:css, '.glyphicon-chevron-down').click
         wait_for_ajax
 
         expect(page).to have_content '0'
