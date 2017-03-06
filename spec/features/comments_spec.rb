@@ -109,7 +109,7 @@ feature 'User deletes his comment', '
 
     scenario 'Authenticated user can delete his comment', js: true do
       within "#comment-#{@commentable.class.name}-#{@user_comment.id}" do
-        find(:css, '.btn.glyphicon.glyphicon-trash').click
+        find(:css, 'span.glyphicon-trash').click
       end
 
       expect(current_path).to eq question_path(question)
@@ -118,7 +118,7 @@ feature 'User deletes his comment', '
 
     scenario "Authenticated user can't delete someone else's comment" do
       within "#comment-#{@commentable.class.name}-#{@another_comment.id}" do
-        expect(page).not_to have_css('.btn.glyphicon.glyphicon-trash')
+        expect(page).not_to have_css('span.glyphicon-trash')
       end
       expect(page).to have_content(@another_comment.body)
     end

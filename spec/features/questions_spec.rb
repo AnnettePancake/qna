@@ -231,22 +231,21 @@ feature 'User deletes his attachment', '
     visit question_path(id: user_question.id)
 
     within "#attachment_#{user_attachment.id}" do
-      click_on 'Delete file'
+      find(:css, 'span.glyphicon-remove').click
+      wait_for_ajax
     end
 
-    expect(current_path).to eq question_path(user_question)
-    expect(page).not_to have_content(user_attachment.file)
+    expect(page).not_to have_css("#attachment_#{user_attachment.id}")
   end
 
   scenario "Authenticated user can't delete someone else's attachment" do
     visit question_path(id: another_question.id)
 
     within "#attachment_#{another_attachment.id}" do
-      expect(page).not_to have_content('Delete file')
+      expect(page).not_to have_css 'span.glyphicon-remove'
     end
 
-    expect(current_path).to eq question_path(another_question)
-    expect(page).to have_content(another_attachment.file)
+    expect(page).to have_content(another_attachment.file_identifier)
   end
 end
 

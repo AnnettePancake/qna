@@ -10,7 +10,6 @@
     .col-md-11
       - if can?(:edit, answer)
         .btn-group
-        
           = link_to edit_answer_path(id: answer.id), remote: true, class: 'btn btn-xs', title: 'Edit' do
             span.glyphicon.glyphicon-pencil
           = link_to answer_path(id: answer.id), remote: true, method: :delete, title: 'Delete', class: 'btn btn-xs' do
